@@ -1,0 +1,8 @@
+# Netlify 读这个文件对静态上传（Netlify Drop）生效；netlify.toml 里的 headers
+# 只在云端构建时生效，所以规则放这里。
+#
+# 只给带哈希的构建产物设长期缓存。HTML 故意不管：你每次改完都要刷新就能看到，
+# 不能被缓存挡住。
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
