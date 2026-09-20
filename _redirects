@@ -1,3 +1,0 @@
-# 手工直传（Netlify Drop）只读这个文件，netlify.toml 里的 redirects 不生效。
-# 两个域名都要先在 Netlify 后台加到本站点，否则这条规则不会触发。
-https://www.ttwstar.abrdns.com/* https://ttwstar.abrdns.com/:splat 301!
