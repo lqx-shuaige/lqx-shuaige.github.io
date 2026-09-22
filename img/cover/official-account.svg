@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
-  <rect width="1600" height="900" fill="#8b93a7" fill-opacity=".16"/>
-  <rect x="14" y="14" width="1572" height="872" fill="none" stroke="#8b93a7" stroke-opacity=".55" stroke-width="3" stroke-dasharray="18 14"/>
-  <text x="800" y="428" text-anchor="middle" font-family="ui-monospace,monospace" font-size="52" fill="#8b93a7">配图待替换</text>
-  <text x="800" y="500" text-anchor="middle" font-family="ui-monospace,monospace" font-size="30" fill-opacity=".8" fill="#8b93a7">img/cover/official-account</text>
-</svg>
