@@ -13,9 +13,10 @@
     const mats = ['liquid', 'glass', 'frosted', 'acrylic', 'paper'], m = g('mat');
     r.dataset.mat = m && mats.includes(m) ? m : 'liquid';
     r.dataset.lgstyle = g('lgstyle') === 'jelly' ? 'jelly' : 'clear';
-    /* 诊断开关：控制台里 localStorage.setItem('site.diag','nolens'|'nofx'|'nowall')
-       后刷新，一次只关掉一层，用来把"卡"定位到具体是谁。界面上完全不可见，
-       查完 setItem('site.diag','') 就恢复。 */
+    /* 诊断开关：控制台里 localStorage.setItem('site.diag','nolens'|'nofx'|'nowall'|
+       'nosq'|'nodegrade') 后刷新，一次只关掉一层，用来把"卡"定位到具体是谁。
+       'nodegrade' = 滚动时不降级（摘掉折射那套），用来量"降级到底省了多少"。
+       界面上完全不可见，查完 setItem('site.diag','') 就恢复。 */
     const diag = g('diag');
     if (diag) r.dataset.diag = diag;
   })();
