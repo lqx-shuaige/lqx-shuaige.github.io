@@ -288,7 +288,7 @@
     body[data-stage="6"] #overlay { padding-top: 2.4vh; }
   }
 </style>
-<!-- 版本 2026-10-21 13:58 · 照片墙 5 张 + 题注补字 -->
+<!-- 版本 2026-10-21 15:35 · 照片墙 5 张 + 题注补字 · 物理改走固定 16.7ms 时间步 -->
 </head>
 <body>
 <div id="wishbg"></div>
@@ -2377,7 +2377,23 @@ function blowOut() {
 }
 
 /* ================= 更新 ================= */
+/* 粒子、火焰、亮度追值这些物理原来一帧跑一步：手机是 120Hz，一秒跑 120 步，
+   同一段动画只花一半时间就演完了，看着就是「傻快」。现在物理锁在固定 16.7ms
+   的格子上，按真实流逝的时间补步，60Hz 和 120Hz 跑出来是同一段节奏。 */
+const STEP = 1000 / 60;
+let stepAcc = 0, lastUpdateAt = 0;
+
 function update(t) {
+  // 首帧按一步算，别让动画比原来晚一帧起步
+  stepAcc += lastUpdateAt ? Math.min(STEP * 3, t - lastUpdateAt) : STEP;
+  lastUpdateAt = t;
+  for (let n = 0; n < 3 && stepAcc >= STEP; n++) {
+    stepAcc -= STEP;
+    physics(t - stepAcc);
+  }
+}
+
+function physics(t) {
   updateStars(t);
   updateMotes(t);
   flameFade += ((flameAlive ? 1 : 0) - flameFade) * .2;
