@@ -288,7 +288,7 @@
     body[data-stage="6"] #overlay { padding-top: 2.4vh; }
   }
 </style>
-<!-- 版本 2026-10-21 15:35 · 照片墙 5 张 + 题注补字 · 物理改走固定 16.7ms 时间步 -->
+<!-- 版本 2026-10-21 22:30 · 照片墙 5 张 + 题注补字 · 窄屏照片墙改成两列自动避让配文 · 物理走固定 16.7ms 时间步 -->
 </head>
 <body>
 <div id="wishbg"></div>
@@ -1937,41 +1937,90 @@ const WIDE_SLOTS = [
   [0.40, 0.40, 4], [0.62, 0.30, -4], [0.50, 0.80, 2]
 ];
 
-/* 窄屏照片墙：两行错落，配文互不遮挡。
-   横图垫在自拍下面，四句配文都能读，脸也不会被挡。 */
+/* 窄屏照片墙：两列错落，后出现的照片永远在最上面。
+   摆放时把「已经出现的配文」当软约束——新照片先往下让，让不开就宁可压到人
+   家配文头上一小截，也不把照片缩成邮票；只有竖着实在放不下才缩一档重排。 */
 const MOBILE_ROT = [-6, 5, 3, -4, 2];
+const MOBILE_COL = ['L', 'R', 'R', 'L', 'L'];   // 两张横图都归左列，顺着一张往下叠
 const mobileWall = [];
+function mobileBox(cx, cy, w, h, deg) {
+  const a = deg * Math.PI / 180, c = Math.abs(Math.cos(a)), s = Math.abs(Math.sin(a));
+  const hw = (w * c + h * s) / 2, hh = (w * s + h * c) / 2;   // 斜过来之后的外框
+  return { l: cx - hw, r: cx + hw, t: cy - hh, b: cy + hh };
+}
+/* 配文在卡片里的位置：贴着下沿（内边距 12），块宽等于卡片内宽，但两头各有一枚
+   10px 短横加 8px 间距是装饰，压到不要紧 —— 所以保护框按文字宽度往里收 18px。 */
+function mobileCapBox(cx, cy, cardH, capW, capH, deg) {
+  const a = deg * Math.PI / 180;
+  const dy = cardH / 2 - 12 - capH / 2;
+  const mx = cx - dy * Math.sin(a), my = cy + dy * Math.cos(a);
+  const w = Math.max(capW - 36, 40);
+  const hw = (w * Math.abs(Math.cos(a)) + capH * Math.abs(Math.sin(a))) / 2;
+  const hh = (w * Math.abs(Math.sin(a)) + capH * Math.abs(Math.cos(a))) / 2;
+  return { l: mx - hw, r: mx + hw, t: my - hh, b: my + hh };
+}
 function layoutMobileWall() {
   const gap = 12;
+  const hintEl = document.getElementById('hint');
+  const hintTop = hintEl ? hintEl.getBoundingClientRect().top : H + 999;
   const placed = [];
   for (let i = 0; i < mobileWall.length; i++) {
     const entry = mobileWall[i];
     if (!entry) continue;
-    const cardW = entry.el.offsetWidth, cardH = entry.el.offsetHeight;   /* 题注占两行时高度会自己长 */
-    let left, top;
-    if (i === 0) {
-      left = 16 + cardW / 2;
-      top = H * .15;
-    } else if (i === 1) {
-      left = W - 16 - cardW / 2;
-      top = H * .15 + 18;
-    } else if (i === 2) {
-      left = W - 18 - cardW / 2;
-      top = Math.max(placed[1] ? placed[1].capBottom + gap : H * .46, H * .47 - cardH / 2);
-    } else {
-      /* 第 4、5 张都是横截图，宽到快占满一屏，只能顺左列往下叠：
-         谁在上面就贴着谁的配文下沿排，第 4 张还要躲开右列第二张的下沿。 */
-      left = 12 + cardW / 2;
-      const above = i === 3 ? placed[0] : placed[i - 1];
-      top = above ? above.capBottom + gap : H * .5;
-      if (i === 3 && placed[2]) top = Math.max(top, placed[2].top + placed[2].cardH + 34 - cardH);
+    const el = entry.el, img = el.querySelector('img'), cap = el.querySelector('.cap');
+    const deg = MOBILE_ROT[i % MOBILE_ROT.length];
+    const col = MOBILE_COL[i % MOBILE_COL.length];
+    const sameCol = placed.filter(function (p) { return p.col === col; });
+    const colBottom = sameCol.length ? Math.max.apply(null, sameCol.map(function (p) { return p.b; })) : 0;
+    // 最后一张出现时提示行已经收掉了，那一段位置可以照旧用满
+    const floorY = (i + 1 >= CONFIG.photos.length) ? H - 12 : Math.min(H - 12, hintTop - 12);
+    let scale = 1;
+    for (let tries = 0; tries < 7; tries++) {
+      img.style.width = Math.round(entry.rw * scale) + 'px';
+      img.style.height = Math.round(entry.rh * scale) + 'px';
+      const cardW = el.offsetWidth, cardH = el.offsetHeight;
+      const capW = cap ? cap.offsetWidth : cardW, capH = cap ? cap.offsetHeight : 22;
+      const a = deg * Math.PI / 180;
+      const hh = (cardW * Math.abs(Math.sin(a)) + cardH * Math.abs(Math.cos(a))) / 2;   // 斜过来的半高
+      const cx0 = col === 'L' ? 12 + cardW / 2 : W - 12 - cardW / 2;
+      const half = mobileBox(cx0, 0, cardW, cardH, deg);
+      const cx = cx0 + Math.max(0, 4 - (half.l - 0)) + Math.min(0, (W - 4) - half.r);   // 斜过来别切出屏幕
+      let cy = sameCol.length ? colBottom + gap + hh : H * .14 + hh + (col === 'R' ? 18 : 0);
+      /* 先试着往下让，躲开已经出现的配文；一让就要掉出屏幕的话，
+         宁可压到人家配文头上一小截，也不能把这张照片缩成邮票。 */
+      for (let k = 0; k < 8; k++) {
+        const b0 = mobileBox(cx, cy, cardW, cardH, deg);
+        let need = 0;
+        placed.forEach(function (p) {
+          const ow = Math.min(b0.r, p.cap.r) - Math.max(b0.l, p.cap.l);
+          const oh = Math.min(b0.b, p.cap.b) - Math.max(b0.t, p.cap.t);
+          if (ow > 24 && oh > 8) need = Math.max(need, p.cap.b - b0.t + gap);
+        });
+        if (!need || b0.b + need > floorY) break;
+        cy += need;
+      }
+      const b = mobileBox(cx, cy, cardW, cardH, deg);
+      const cap2 = mobileCapBox(cx, cy, cardH, capW, capH, deg);
+      if (b.b <= floorY || scale <= .82 || tries === 6) {
+        el.style.left = cx + 'px';
+        el.style.top = Math.min(cy, floorY - hh) + 'px';   // .photo 以中心定位
+        el.style.zIndex = String(wallZ + 1 + i);
+        placed.push({ col: col, b: Math.min(b.b, floorY), cap: cap2 });
+        break;
+      }
+      scale = Math.max(.82, scale * .9);              // 竖着实在放不下：这一张缩一档重排（最多缩到八成二）
     }
-    top = Math.min(top, H - 12 - cardH);
-    placed[i] = { top, left, cardW, cardH, capBottom: top + cardH - 10 };
-    entry.el.style.left = left + 'px';
-    entry.el.style.top = (top + cardH / 2) + 'px';   // .photo 以中心定位
-    entry.el.style.zIndex = String(i === 3 ? wallZ : wallZ + 1 + i);
   }
+}
+/* 配文用的是内嵌字体，而且「通话」这几个字在另一支子集里，浏览器是等这句字真上了屏
+   才去取那支字体——取到之前卡片是按回退字体量的，比真字窄一圈。
+   字体每落地一次就补排一次，窄屏的方框才和手算的对得上。 */
+function onWallFontLoaded() {
+  if (mobileWall.length && W <= 520 && W <= H * 1.35) layoutMobileWall();
+}
+if (document.fonts) {
+  if (document.fonts.ready && document.fonts.ready.then) document.fonts.ready.then(onWallFontLoaded);
+  if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', onWallFontLoaded);
 }
 function liftPhoto(el) {
   let top = 0;
@@ -2230,7 +2279,7 @@ function showNextPhoto() {
   img.onload = function() {
     const ratio = img.naturalHeight / img.naturalWidth;
     let w = narrow
-      ? ratio < .9 ? Math.min(W * .68, 280, H * .30)  // 横图守一行配文；矮屏按高再收一档，第 5 张才不会叠到别人配文上
+      ? ratio < .9 ? Math.min(W * .58, 240, H * .27)  // 横图守一行配文；矮屏按高再收一档，第 5 张才不会叠到别人配文上
         : Math.min(W * .40, 168)
       : wide
         ? ratio < .9 ? Math.min(W * .30, 340)        // 横屏里也留够一行配文的宽度
