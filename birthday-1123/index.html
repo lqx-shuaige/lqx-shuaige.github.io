@@ -288,7 +288,7 @@
     body[data-stage="6"] #overlay { padding-top: 2.4vh; }
   }
 </style>
-<!-- 版本 2026-10-21 22:30 · 照片墙 5 张 + 题注补字 · 窄屏照片墙改成两列自动避让配文 · 物理走固定 16.7ms 时间步 -->
+<!-- 版本 2026-10-22 02:10 · 照片墙 5 张 · 窄屏最后一张让不开时整张叠在前两张上面（不再缩邮票、不再挤出屏幕） · /birthday/ 改为跳转 -->
 </head>
 <body>
 <div id="wishbg"></div>
@@ -1999,11 +1999,24 @@ function layoutMobileWall() {
         if (!need || b0.b + need > floorY) break;
         cy += need;
       }
-      const b = mobileBox(cx, cy, cardW, cardH, deg);
-      const cap2 = mobileCapBox(cx, cy, cardH, capW, capH, deg);
+      let b = mobileBox(cx, cy, cardW, cardH, deg);
+      let cap2 = mobileCapBox(cx, cy, cardH, capW, capH, deg);
+      let px = cx, py = cy;
+      /* 只有最后一张这么办：往下让已经让不开，它不缩成邮票、也不挤到屏幕外，
+         改成整张横在正中、压在前两张身上 —— 叠住别人也比看不见强。
+         中间几张仍然交给下面缩一档的重排，两列才不会散架。 */
+      if (b.b > floorY && i + 1 >= CONFIG.photos.length) {
+        px = W / 2;
+        py = Math.max(H * .16 + hh, floorY - hh);
+        const b2 = mobileBox(px, py, cardW, cardH, deg);
+        if (b2.b <= floorY) {
+          b = b2;
+          cap2 = mobileCapBox(px, py, cardH, capW, capH, deg);
+        }
+      }
       if (b.b <= floorY || scale <= .82 || tries === 6) {
-        el.style.left = cx + 'px';
-        el.style.top = Math.min(cy, floorY - hh) + 'px';   // .photo 以中心定位
+        el.style.left = px + 'px';
+        el.style.top = Math.min(py, floorY - hh) + 'px';   // .photo 以中心定位
         el.style.zIndex = String(wallZ + 1 + i);
         placed.push({ col: col, b: Math.min(b.b, floorY), cap: cap2 });
         break;
