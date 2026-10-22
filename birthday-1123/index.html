@@ -1972,71 +1972,113 @@ function mobileCapBox(cx, cy, cardH, capW, capH, deg) {
   const hh = (w * Math.abs(Math.sin(a)) + capH * Math.abs(Math.cos(a))) / 2;
   return { l: mx - hw, r: mx + hw, t: my - hh, b: my + hh };
 }
-function layoutMobileWall() {
-  const gap = 12;
-  const hintEl = document.getElementById('hint');
-  const hintTop = hintEl ? hintEl.getBoundingClientRect().top : H + 999;
-  const placed = [];
+/* 窄屏摆放的口径改了：六张一屏塞不下时，缩的是「整面墙」而不是某一张——
+   先按原尺寸排，哪张的卡片或配文掉到地板以下，就整面一起收一档重排，
+   直到六张都站得住、谁也不压谁的配文。
+   （以前是「让不开就宁可压到别人配文上」+「只把放不下那一张缩成邮票」，
+     在微信那个高度（390x760）量出来的结果是第 5 张整个盖住第 4 张，
+     第 4 张的配文一个字都看不见。） */
+function mobileMeasureAt(s) {
+  /* 先把六张的尺寸统一写完，再统一读盒子：一轮只 reflow 一次，不是每张一次 */
   for (let i = 0; i < mobileWall.length; i++) {
-    const entry = mobileWall[i];
-    if (!entry) continue;
-    const el = entry.el, img = el.querySelector('img'), cap = el.querySelector('.cap');
-    const deg = MOBILE_ROT[i % MOBILE_ROT.length];
+    const e = mobileWall[i];
+    if (!e) continue;
+    const img = e.el.querySelector('img');
+    img.style.width = Math.round(e.rw * s) + 'px';
+    img.style.height = Math.round(e.rh * s) + 'px';
+  }
+  const m = [];
+  for (let i = 0; i < mobileWall.length; i++) {
+    const e = mobileWall[i];
+    if (!e) { m.push(null); continue; }
+    const cap = e.el.querySelector('.cap');
+    m.push({
+      cardW: e.el.offsetWidth, cardH: e.el.offsetHeight,
+      capW: cap ? cap.offsetWidth : 0, capH: cap ? cap.offsetHeight : 22
+    });
+  }
+  return m;
+}
+
+/* 按 s 这一档排一遍：同列顺着一张往下接，跨列撞见别人的配文就再往下让。
+   返回 fits = 六张（含配文）是不是全留在地板以上。 */
+function mobileStackAt(s, topY, floorY, gap) {
+  const m = mobileMeasureAt(s);
+  const placed = [];
+  const items = [];
+  for (let i = 0; i < mobileWall.length; i++) {
+    const e = mobileWall[i];
+    if (!e) continue;
+    const mm = m[i];
+    /* 斜过来会把方框撑大一圈（一张 190x250 的卡斜 6° 要多占 26px 高），
+       三行下来就是小半屏。整面收到九成以下时，把倾角一起收掉一点，
+       换回来的位置还给照片，而不是让配文折成两行。 */
+    const deg = Math.round(MOBILE_ROT[i % MOBILE_ROT.length] * (s >= .95 ? 1 : .6) * 10) / 10;
     const col = MOBILE_COL[i % MOBILE_COL.length];
+    const a = deg * Math.PI / 180;
+    const hw = (mm.cardW * Math.abs(Math.cos(a)) + mm.cardH * Math.abs(Math.sin(a))) / 2;
+    const hh = (mm.cardW * Math.abs(Math.sin(a)) + mm.cardH * Math.abs(Math.cos(a))) / 2;
     const sameCol = placed.filter(function (p) { return p.col === col; });
-    const colBottom = sameCol.length ? Math.max.apply(null, sameCol.map(function (p) { return p.b; })) : 0;
-    // 最后一张出现时提示行已经收掉了，那一段位置可以照旧用满
-    const floorY = (i + 1 >= CONFIG.photos.length) ? H - 12 : Math.min(H - 12, hintTop - 12);
-    let scale = 1;
-    for (let tries = 0; tries < 7; tries++) {
-      img.style.width = Math.round(entry.rw * scale) + 'px';
-      img.style.height = Math.round(entry.rh * scale) + 'px';
-      const cardW = el.offsetWidth, cardH = el.offsetHeight;
-      const capW = cap ? cap.offsetWidth : cardW, capH = cap ? cap.offsetHeight : 22;
-      const a = deg * Math.PI / 180;
-      const hh = (cardW * Math.abs(Math.sin(a)) + cardH * Math.abs(Math.cos(a))) / 2;   // 斜过来的半高
-      const cx0 = col === 'L' ? 12 + cardW / 2 : W - 12 - cardW / 2;
-      const half = mobileBox(cx0, 0, cardW, cardH, deg);
-      const cx = cx0 + Math.max(0, 4 - (half.l - 0)) + Math.min(0, (W - 4) - half.r);   // 斜过来别切出屏幕
-      let cy = sameCol.length ? colBottom + gap + hh : H * .14 + hh + (col === 'R' ? 18 : 0);
-      /* 先试着往下让，躲开已经出现的配文；一让就要掉出屏幕的话，
-         宁可压到人家配文头上一小截，也不能把这张照片缩成邮票。 */
-      for (let k = 0; k < 8; k++) {
-        const b0 = mobileBox(cx, cy, cardW, cardH, deg);
-        let need = 0;
-        placed.forEach(function (p) {
-          const ow = Math.min(b0.r, p.cap.r) - Math.max(b0.l, p.cap.l);
-          const oh = Math.min(b0.b, p.cap.b) - Math.max(b0.t, p.cap.t);
-          if (ow > 24 && oh > 8) need = Math.max(need, p.cap.b - b0.t + gap);
-        });
-        if (!need || b0.b + need > floorY) break;
-        cy += need;
-      }
-      let b = mobileBox(cx, cy, cardW, cardH, deg);
-      let cap2 = mobileCapBox(cx, cy, cardH, capW, capH, deg);
-      let px = cx, py = cy;
-      /* 只有最后一张这么办：往下让已经让不开，它不缩成邮票、也不挤到屏幕外，
-         改成整张横在正中、压在前两张身上 —— 叠住别人也比看不见强。
-         中间几张仍然交给下面缩一档的重排，两列才不会散架。 */
-      if (b.b > floorY && i + 1 >= CONFIG.photos.length) {
-        px = W / 2;
-        py = Math.max(H * .16 + hh, floorY - hh);
-        const b2 = mobileBox(px, py, cardW, cardH, deg);
-        if (b2.b <= floorY) {
-          b = b2;
-          cap2 = mobileCapBox(px, py, cardH, capW, capH, deg);
-        }
-      }
-      if (b.b <= floorY || scale <= .82 || tries === 6) {
-        el.style.left = px + 'px';
-        el.style.top = Math.min(py, floorY - hh) + 'px';   // .photo 以中心定位
-        el.style.zIndex = String(wallZ + 1 + i);
-        placed.push({ col: col, b: Math.min(b.b, floorY), cap: cap2 });
-        break;
-      }
-      scale = Math.max(.82, scale * .9);              // 竖着实在放不下：这一张缩一档重排（最多缩到八成二）
+    const colBottom = sameCol.length ? Math.max.apply(null, sameCol.map(function (p) { return p.b; })) : topY;
+    let cx = col === 'L' ? 12 + hw : W - 12 - hw;
+    cx += Math.max(0, 4 - (cx - hw)) + Math.min(0, (W - 4) - (cx + hw));   // 斜过来别切出屏幕
+    let cy = colBottom + gap + hh + (col === 'R' && !sameCol.length ? 18 : 0);
+    /* 只管往下让，让到不压任何人的配文为止；让到地板以下不算让成，
+       交给外面的整面缩放去解决——这里绝不再「宁可压一点」。 */
+    for (let k = 0; k < 10; k++) {
+      const b0 = mobileBox(cx, cy, mm.cardW, mm.cardH, deg);
+      let need = 0;
+      placed.forEach(function (p) {
+        const ow = Math.min(b0.r, p.cap.r) - Math.max(b0.l, p.cap.l);
+        const oh = Math.min(b0.b, p.cap.b) - Math.max(b0.t, p.cap.t);
+        if (ow > 24 && oh > 8) need = Math.max(need, p.cap.b - b0.t + gap);
+      });
+      if (!need) break;
+      cy += need;
+    }
+    const b = mobileBox(cx, cy, mm.cardW, mm.cardH, deg);
+    const capBox = mobileCapBox(cx, cy, mm.cardH, mm.capW, mm.capH, deg);
+    placed.push({ col: col, b: b.b, cap: capBox });
+    items.push({
+      el: e.el, i: i, cx: cx, cy: cy, b: b, deg: deg,
+      cap: capBox
+    });
+  }
+  /* 卡片本体和配文都得留在地板以上；而且任何一张都不许盖住别人的配文。
+     这两条都过了才算这一档排得下，否则整面墙再收一档重排。 */
+  const fitsFloor = items.every(function (it) { return it.b.b <= floorY && it.cap.b <= floorY; });
+  let fits = fitsFloor;
+  for (let x = 0; fits && x < items.length; x++) {
+    for (let y = 0; y < items.length; y++) {
+      /* 只有压在上面的那张（后出现的）才真盖得住别人的配文，
+         反过来的「早的卡挨到晚的卡的配文」在屏上是被盖住的那一侧，不算。 */
+      if (x <= y) continue;
+      const A = items[x].b, C = items[y].cap;
+      if (Math.min(A.r, C.r) - Math.max(A.l, C.l) > 24 &&
+          Math.min(A.b, C.b) - Math.max(A.t, C.t) > 8) { fits = false; break; }
     }
   }
+  return { s: s, items: items, fits: fits };
+}
+
+function layoutMobileWall() {
+  const gap = 10;
+  const hintEl = document.getElementById('hint');
+  const hintTop = hintEl ? hintEl.getBoundingClientRect().top : H + 999;
+  /* 最后一张出现时提示行已经收掉了，那一段位置可以照旧用满 */
+  const floorY = (shownIdx >= CONFIG.photos.length) ? H - 12 : Math.min(H - 12, hintTop - 12);
+  const topY = H * .14;
+  let best = null;
+  for (let t = 0; t < 9; t++) {
+    best = mobileStackAt(1 - t * .05, topY, floorY, gap);
+    if (best.fits) break;
+  }
+  best.items.forEach(function (it) {
+    it.el.style.setProperty('--rot', it.deg + 'deg');   // 方框是按这个角度算的，落位必须用同一个
+    it.el.style.left = Math.round(it.cx) + 'px';
+    it.el.style.top = Math.round(it.cy) + 'px';   // .photo 以中心定位
+    it.el.style.zIndex = String(wallZ + 1 + it.i);
+  });
 }
 /* 配文用的是内嵌字体，而且「通话」这几个字在另一支子集里，浏览器是等这句字真上了屏
    才去取那支字体——取到之前卡片是按回退字体量的，比真字窄一圈。
