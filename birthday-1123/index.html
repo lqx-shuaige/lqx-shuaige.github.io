@@ -457,7 +457,8 @@
     body[data-stage="6"] #overlay { padding-top: 2.4vh; }
   }
 </style>
-<!-- 版本 2026-10-22 19:05 · 尾幕换成那封信：整屏纯黑（#blackout 盖掉蛋糕/星空/标题），信从下往上匀速走 22 像素/秒，按住停、跟手拖、抬手续走，最后一句落在正中 · 「认识 114 天」按 metAt 2026-08-02 当天现算 · 信里 126 个生僻字补进 Noto Serif SC Sub4 -->
+<!-- 版本 2026-10-22 19:40 · 尾幕「抬手续走」补了独立通道：touchend / touchcancel / lostpointercapture 三路都收，
+     再加每帧 rollGuard 兜底（内核把 pointerup 弄丢时下一帧接回去）；抬手分支改看 rollHeld，不再拿 hadPress 当前提 -->
 </head>
 <body>
 <div id="wishbg"></div>
@@ -2664,6 +2665,22 @@ function rollUp(now) {
   rollAuto(now);
 }
 
+/* 「抬手」这件事不能只认一条路。手机内核（微信里那套、MIUI 自带浏览器）有时会
+   只发 touchend 不发 pointerup，或者反过来；抬手发生在屏幕边缘那一带时两条都不发。
+   三条通道各收一遍，谁先到算谁：rollUp 只看 rollHeld，重复调用就是空转。
+   touches 是浏览器给的权威名单，它空了才是手指真离开了屏幕。 */
+function rollReleaseNow(why, e) {
+  if (stage !== 7 || !rollHeld) return;
+  if (e && e.touches && e.touches.length) return;   // 还有手指按着，不算抬手
+  rollUp(performance.now());
+}
+
+/* 兜底：app 记着「还按着」而 pointer 的账说没按——抬手事件半路丢了，
+   下一帧就把它接回去，别让整屏冻在那儿。 */
+function rollGuard(now) {
+  if (stage === 7 && rollHeld && !pointer.down) rollUp(now);
+}
+
 function enterCredits() {
   rollEl = document.getElementById('roll');
   rollEl.innerHTML = '';
@@ -2747,7 +2764,7 @@ window.addEventListener('pointerup', function(e) {
   if (e.target.closest('button')) { blewThisPress = false; return; }
   if (blewThisPress) { blewThisPress = false; return; }
   if (!hadPress || performance.now() < lockUntil) {
-    if (stage === 7 && hadPress) rollUp(performance.now());
+    if (stage === 7 && rollHeld) rollUp(performance.now());
     return;
   }
   if (stage === 2 || stage === 3) return;
@@ -2766,7 +2783,9 @@ window.addEventListener('pointerup', function(e) {
     else showNextPhoto();
     return;
   }
-  if (stage === 7) { rollUp(performance.now()); return; }
+  /* 抬手主路：只看「是不是停着」，别拿 hadPress 那套记账当前提——
+     按住期间被 pointercancel 过一次的，hadPress 就是 false 了。 */
+  if (stage === 7) { if (rollHeld) rollUp(performance.now()); return; }
   if (stage > 7) return;
   setStage(stage + 1);
 });
@@ -2785,6 +2804,12 @@ window.addEventListener('pointermove', function(e) {
   pointer.x = e.clientX; pointer.y = e.clientY;
 });
 window.addEventListener('pointercancel', cancelPress);
+/* 抬手三路：pointerup（主路，在上面的 handler 里）、touchend/touchcancel（触屏那条
+   独立通道）、lostpointercapture（手指离开屏幕后内核补发的一下）。捕获期挂，
+   免得被谁半路 stopPropagation 掉。 */
+window.addEventListener('touchend', function(e) { rollReleaseNow('touchend', e); }, true);
+window.addEventListener('touchcancel', function(e) { rollReleaseNow('touchcancel', e); }, true);
+window.addEventListener('lostpointercapture', function(e) { rollReleaseNow('lostpointercapture', e); }, true);
 window.addEventListener('blur', cancelPress);
 window.addEventListener('pagehide', cancelPress);
 document.addEventListener('visibilitychange', cancelPress);
@@ -3003,6 +3028,7 @@ let rafT0 = performance.now();
 function loop() {
   const t = performance.now();
   update(t);
+  rollGuard(t);   // 每帧对一次账：抬手事件丢了也能下一帧接回去
   if (stage !== 7) render(t);   // 黑底盖住了，蛋糕不用再一帧帧画
   requestAnimationFrame(loop);
 }
