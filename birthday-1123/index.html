@@ -2386,7 +2386,7 @@ function showNextPhoto() {
   el.addEventListener('pointerdown', function(e) {
     if (e.button !== 0 || e.isPrimary === false) return;
     drag = {
-      id: e.pointerId, x: e.clientX, y: e.clientY,
+      id: e.pointerId, x: e.clientX, y: e.clientY, t0: performance.now(),
       left: parseFloat(el.style.left), top: parseFloat(el.style.top),
       moved: 0, raised: false
     };
@@ -2398,9 +2398,12 @@ function showNextPhoto() {
     if (!drag || drag.id !== e.pointerId) return;
     const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
     drag.moved = Math.max(drag.moved, Math.hypot(dx, dy));
-    if (drag.moved > 8) {
-      photoDragMoved = true;
-      // 窄屏只轻点不抬层级，免得垫在下面的横图一碰就盖住自拍
+    /* 手指在屏上点一下本来就会晃十几像素（鼠标不会），阈值放 8 的结果是：
+       手机上只要点到已经出现的那张照片上，就被判成「拖过」，
+       而 window 那条 pointerup 一见 photoDragMoved 就不出下一张 —— 墙卡住不动，
+       电脑上却一切正常（2026-10-22 实测：抖 10px 点照片，一张都出不来）。
+       这里只负责把卡跟着手指走和抬层级，「算拖还是算点」留到抬手那一刻再判。 */
+    if (drag.moved > 20) {
       if (narrow && !drag.raised) { drag.raised = true; liftPhoto(el); }
     }
     el.style.left = (drag.left + dx) + 'px';
@@ -2408,8 +2411,20 @@ function showNextPhoto() {
   });
   function endDrag() {
     if (!drag) return;
+    const d = drag;
     drag = null;
     el.classList.remove('dragging');
+    /* 抬手时才定性：真要把一张卡拖走，是「按住—移—抬手」，手指必然在屏上停三百毫秒以上；
+       点一下就抬手的，不管晃了多少像素都按轻点算，位置弹回原处，
+       让 window 那条 pointerup 照常出下一张。判反了的代价不对称：
+       多弹一张出来无所谓，墙卡住他就是看不到后面的照片。 */
+    const held = performance.now() - d.t0;
+    if (d.moved > 20 && held >= 300) {
+      photoDragMoved = true;
+    } else {
+      el.style.left = d.left + 'px';
+      el.style.top = d.top + 'px';
+    }
   }
   el.addEventListener('pointerup', endDrag);
   el.addEventListener('pointercancel', endDrag);
@@ -2464,7 +2479,10 @@ window.addEventListener('pointerup', function(e) {
   if (stage === 2 || stage === 3) return;
   if (stage === 5) {
     if (!typedDone) { showAllText(); return; }
-    if (cakeDragDistance < 9 && CONFIG.photos.length) setStage(6);
+    /* 这条按的是「整段按住期间走过的路程累加」，手指晃一下就能攒到几十像素，
+       9 的门槛在手机上等于「点不动进照片墙」——和上面那张卡住的是同一个病。
+       真要把蛋糕转个角度看，路程远超 60。 */
+    if (cakeDragDistance < 60 && CONFIG.photos.length) setStage(6);
     return;
   }
   if (stage === 6) { if (!photoDragMoved) showNextPhoto(); return; }
