@@ -5,16 +5,225 @@
 <meta name="theme-color" content="#0b1018"><meta name="description" content="一只玻璃立方体里的微缩生态世界。旋转、靠近，看雪山融水流过森林，在日夜之间停留。">
 <title>一方世界 · 抬头望星</title>
 <style>
-:root{color-scheme:dark;--night:#0b1018;--paper:#e9ebe3;--muted:#9ba9ad;--water:#78c5bf;--line:#c4ded523;--font:MiSans,"Microsoft YaHei",system-ui,sans-serif}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}body{background:var(--night);color:var(--paper);font-family:var(--font);font-size:13px}button,a,input{-webkit-tap-highlight-color:transparent}button,a{color:inherit}button{font:inherit;cursor:pointer}a{text-decoration:none}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--water);outline-offset:6px}button{border:0}#world{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none}.top{position:absolute;z-index:2;top:max(28px,env(safe-area-inset-top));left:36px;right:36px;display:flex;align-items:center;justify-content:space-between;pointer-events:none}.top>*{pointer-events:auto}.back{display:inline-flex;align-items:center;gap:9px;color:var(--muted);font-size:12px;padding:10px 0}.back:hover{color:var(--paper)}.back svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.4}.edition{font-family:Georgia,serif;font-size:12px;letter-spacing:.17em;color:#bdc9c3}.intro{position:absolute;z-index:1;left:6%;top:17%;pointer-events:none}.intro .kicker{font-size:10px;letter-spacing:.25em;color:var(--water);margin:0 0 19px}.intro h1{font-family:"Noto Serif SC","Songti SC","SimSun",serif;font-size:clamp(30px,3.2vw,47px);font-weight:400;letter-spacing:.16em;margin:0 0 17px}.intro .summary{font-weight:300;font-size:12px;letter-spacing:.05em;line-height:2.1;color:var(--muted);margin:0;max-width:185px}.bottom{position:absolute;z-index:2;bottom:max(26px,env(safe-area-inset-bottom));left:36px;right:36px;display:flex;align-items:flex-end;justify-content:space-between;gap:22px;pointer-events:none}.bottom>*{pointer-events:auto}.caption{font-size:11px;color:var(--muted);line-height:1.9;letter-spacing:.03em}.caption strong{display:block;font-weight:400;color:#d4ded6;margin-bottom:5px}.controls{display:flex;align-items:center;gap:18px;padding:13px 19px;background:#101a22d9;border:1px solid var(--line);border-radius:22px;box-shadow:0 8px 30px #0003;backdrop-filter:blur(16px)}.time{width:155px}.time-line{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.time-line label{font-size:11px;color:var(--muted)}#time-value{font-size:11px;font-variant-numeric:tabular-nums;color:#dce7df}input[type=range]{display:block;width:100%;height:4px;appearance:none;border-radius:4px;background:linear-gradient(90deg,#566b8e,#deba80 45%,#efd8a8 65%,#526583);cursor:pointer;margin:0}input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;background:#e9ebe3;border-radius:50%;box-shadow:0 0 0 3px #bcd8d51a}.tools{display:flex;gap:6px;border-left:1px solid var(--line);padding-left:12px}.tool{width:36px;height:36px;display:grid;place-items:center;background:transparent;border-radius:11px;color:#b6c5c2}.tool:hover{background:#bcd8d510}.tool[aria-pressed=true]{color:#e8d0a6;background:#d5c29813}.tool svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.tool .pause-icon{display:none}.tool[aria-pressed=true] .play-icon{display:none}.tool[aria-pressed=true] .pause-icon{display:block}.tip{position:absolute;z-index:1;bottom:116px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.09em;color:#a6b9ba91;white-space:nowrap;pointer-events:none}.loading{position:absolute;z-index:4;inset:0;display:flex;align-items:center;justify-content:center;background:var(--night);transition:opacity .6s;flex-direction:column;gap:18px}.loading span{font-family:Georgia,"SimSun",serif;font-size:22px;letter-spacing:.18em}.loading p{font-size:12px;color:var(--muted);max-width:300px;text-align:center;line-height:1.8}.loading.ready{opacity:0;pointer-events:none}.loading a{color:var(--water);text-decoration:underline}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}#notice{position:absolute;top:83px;left:50%;transform:translateX(-50%);color:#d9c59c;font-size:12px;z-index:5}.hidden{display:none!important}@media(max-width:1000px){.intro{left:5%;top:13%}.intro .summary{max-width:160px}.intro h1{font-size:32px}.caption{max-width:180px}.top,.bottom{left:24px;right:24px}}@media(max-width:600px){.top{top:max(12px,env(safe-area-inset-top));left:20px;right:20px}.edition{font-size:10px}.intro{left:25px;top:88px}.intro .kicker{font-size:9px;margin-bottom:12px}.intro h1{font-size:29px;margin-bottom:10px}.intro .summary{font-size:11px;max-width:260px;line-height:1.8}.intro .summary br{display:block}.bottom{left:18px;right:18px;bottom:max(20px,env(safe-area-inset-bottom));flex-direction:column;align-items:stretch;gap:13px}.caption{display:none}.controls{align-self:center;width:min(100%,370px);justify-content:center;gap:15px;padding:15px 16px;border-radius:20px}.time{flex:1}.tools{gap:3px;padding-left:11px}.tip{bottom:112px;font-size:10px}.tool{width:33px;height:34px}}@media(max-height:560px) and (min-width:601px){.intro{top:95px}.intro h1{font-size:27px}.intro .summary{font-size:10px}.top{top:10px}.bottom{bottom:16px}.caption{display:none}.bottom{justify-content:flex-end}.tip{bottom:32px;left:32px;transform:none}}@media(prefers-reduced-motion:reduce){.loading{transition:none}}
+:root {
+  color-scheme: dark;
+  --night: #0b1018;
+  --paper: #e9ebe3;
+  --muted: #9ba9ad;
+  --water: #78c5bf;
+  --line: #c4ded523;
+  --font: MiSans, "Microsoft YaHei", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--night); color: var(--paper); font-family: var(--font); font-size: 13px; }
+button, a, input { -webkit-tap-highlight-color: transparent; }
+button, a { color: inherit; }
+button { font: inherit; cursor: pointer; border: 0; }
+a { text-decoration: none; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--water); outline-offset: 6px; }
+#world { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; outline: none; }
+/* A non-interactive camera framing rectangle; the canvas still fills the viewport. */
+#stage-bounds { position: absolute; inset: 0; pointer-events: none; }
+.top {
+  position: absolute;
+  z-index: 2;
+  top: max(28px, env(safe-area-inset-top));
+  left: 36px;
+  right: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.top > * { pointer-events: auto; }
+.back { display: inline-flex; align-items: center; gap: 9px; color: var(--muted); font-size: 12px; padding: 10px 0; }
+.back:hover { color: var(--paper); }
+.back svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.4; }
+.edition { font-family: Georgia, serif; font-size: 12px; letter-spacing: .17em; color: #bdc9c3; }
+.intro { position: absolute; z-index: 1; left: 6%; top: 17%; pointer-events: none; }
+.intro .kicker { font-size: 10px; letter-spacing: .25em; color: var(--water); margin: 0 0 19px; }
+.intro h1 { font-family: "Noto Serif SC", "Songti SC", "SimSun", serif; font-size: clamp(30px, 3.2vw, 47px); font-weight: 400; letter-spacing: .16em; margin: 0 0 17px; }
+.intro .summary { font-weight: 300; font-size: 12px; letter-spacing: .05em; line-height: 2.1; color: var(--muted); margin: 0; max-width: 185px; }
+.mobile-summary, .tool-label, #sky-phase { display: none; }
+.bottom {
+  position: absolute;
+  z-index: 2;
+  bottom: max(26px, env(safe-area-inset-bottom));
+  left: 36px;
+  right: 36px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 22px;
+  pointer-events: none;
+}
+.bottom > * { pointer-events: auto; }
+.caption { font-size: 11px; color: var(--muted); line-height: 1.9; letter-spacing: .03em; }
+.caption strong { display: block; font-weight: 400; color: #d4ded6; margin-bottom: 5px; }
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 13px 19px;
+  background: #101a22d9;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: 0 8px 30px #0003;
+  backdrop-filter: blur(16px);
+}
+.time { width: 155px; }
+.time-line { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.time-line label { font-size: 11px; color: var(--muted); }
+#time-value { font-size: 11px; font-variant-numeric: tabular-nums; color: #dce7df; }
+input[type=range] { display: block; width: 100%; height: 4px; appearance: none; border-radius: 4px; background: linear-gradient(90deg, #566b8e, #deba80 45%, #efd8a8 65%, #526583); cursor: pointer; margin: 0; }
+input[type=range]::-webkit-slider-thumb { appearance: none; width: 11px; height: 11px; background: #e9ebe3; border-radius: 50%; box-shadow: 0 0 0 3px #bcd8d51a; }
+.tools { display: flex; gap: 6px; border-left: 1px solid var(--line); padding-left: 12px; }
+.tool { width: 36px; height: 36px; display: grid; place-items: center; background: transparent; border-radius: 11px; color: #b6c5c2; }
+.tool:hover { background: #bcd8d510; }
+.tool[aria-pressed=true] { color: #e8d0a6; background: #d5c29813; }
+.tool svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.tool .pause-icon { display: none; }
+.tool[aria-pressed=true] .play-icon { display: none; }
+.tool[aria-pressed=true] .pause-icon { display: block; }
+.tip { position: absolute; z-index: 1; bottom: 116px; left: 50%; transform: translateX(-50%); font-size: 10px; letter-spacing: .09em; color: #a6b9ba91; white-space: nowrap; pointer-events: none; }
+.loading { position: absolute; z-index: 4; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--night); transition: opacity .6s; flex-direction: column; gap: 18px; }
+.loading span { font-family: Georgia, "SimSun", serif; font-size: 22px; letter-spacing: .18em; }
+.loading p { font-size: 12px; color: var(--muted); max-width: 300px; text-align: center; line-height: 1.8; }
+.loading.ready { opacity: 0; pointer-events: none; }
+.loading a { color: var(--water); text-decoration: underline; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+#notice { position: absolute; top: 83px; left: 50%; transform: translateX(-50%); color: #d9c59c; font-size: 12px; z-index: 5; }
+.hidden { display: none !important; }
+
+@media (max-width: 1000px) {
+  .intro { left: 5%; top: 13%; }
+  .intro .summary { max-width: 160px; }
+  .intro h1 { font-size: 32px; }
+  .caption { max-width: 180px; }
+  .top, .bottom { left: 24px; right: 24px; }
+}
+/* Preserve the existing short desktop layout; phone landscape overrides it below. */
+@media (max-height: 560px) and (min-width: 601px) {
+  .intro { top: 95px; }
+  .intro h1 { font-size: 27px; }
+  .intro .summary { font-size: 10px; }
+  .top { top: 10px; }
+  .bottom { bottom: 16px; justify-content: flex-end; }
+  .caption { display: none; }
+  .tip { bottom: 32px; left: 32px; transform: none; }
+}
+@media (min-width: 1001px) and (min-height: 561px) {
+  .tip { left: 6%; top: 342px; bottom: auto; transform: none; }
+}
+@media (min-width: 601px) and (max-width: 1000px) and (min-height: 561px) {
+  .tip { left: 5%; top: 300px; bottom: auto; transform: none; }
+}
+
+/* Shared phone controls: a full-width time row, then three labelled touch targets. */
+@media (max-width: 600px), (max-height: 560px) and (max-width: 1000px) {
+  .back { min-width: 44px; min-height: 44px; }
+  .edition { font-size: 10px; }
+  .caption { display: none; }
+  .bottom { flex-direction: column; align-items: stretch; gap: 0; }
+  .controls {
+    align-self: center;
+    width: min(100%, 370px);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 20px;
+  }
+  .time { width: 100%; min-width: 0; }
+  .time-line { gap: 10px; margin-bottom: 0; line-height: 16px; }
+  #sky-phase { display: inline; margin-left: auto; font-size: 11px; color: var(--water); }
+  #time-value { min-width: 34px; text-align: right; }
+  input[type=range] { height: 32px; background: transparent; touch-action: pan-x; }
+  input[type=range]::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #566b8e, #deba80 45%, #efd8a8 65%, #526583);
+  }
+  input[type=range]::-webkit-slider-thumb { width: 16px; height: 16px; margin-top: -6px; }
+  input[type=range]::-moz-range-track {
+    height: 4px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #566b8e, #deba80 45%, #efd8a8 65%, #526583);
+  }
+  input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border: 0; background: #e9ebe3; border-radius: 50%; box-shadow: 0 0 0 3px #bcd8d51a; }
+  .tools { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; border-left: 0; padding-left: 0; }
+  .tool {
+    width: 100%;
+    min-width: 44px;
+    height: auto;
+    min-height: 52px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 6px 3px;
+    font-size: 11px;
+    line-height: 1.3;
+  }
+  .tool svg { flex-shrink: 0; }
+  .tool-label { display: block; }
+  .tip { margin: 0; font-size: 10px; line-height: 1.4; }
+}
+@media (max-width: 600px) {
+  #stage-bounds {
+    left: 8px;
+    right: 8px;
+    top: max(145px, calc(env(safe-area-inset-top) + 133px));
+    bottom: calc(max(20px, env(safe-area-inset-bottom)) + 150px);
+  }
+  .top { top: max(12px, env(safe-area-inset-top)); left: 20px; right: 20px; }
+  .intro { left: 25px; right: 20px; top: max(65px, calc(env(safe-area-inset-top) + 53px)); }
+  .intro .kicker, .intro .summary { display: none; }
+  .intro h1 { font-size: 26px; margin-bottom: 6px; }
+  .mobile-summary { display: block; margin: 0; color: var(--muted); font-size: 11px; font-weight: 300; line-height: 1.8; letter-spacing: .05em; }
+  .bottom { left: 18px; right: 18px; bottom: max(20px, env(safe-area-inset-bottom)); }
+  .tip { bottom: calc(max(20px, env(safe-area-inset-bottom)) + 133px); }
+}
+@media (max-height: 560px) and (max-width: 1000px) {
+  #stage-bounds {
+    left: max(8px, env(safe-area-inset-left));
+    top: max(52px, calc(env(safe-area-inset-top) + 48px));
+    bottom: max(14px, env(safe-area-inset-bottom));
+    right: calc(max(16px, env(safe-area-inset-right)) + 248px);
+  }
+  .top { top: max(4px, env(safe-area-inset-top)); left: max(16px, env(safe-area-inset-left)); right: max(16px, env(safe-area-inset-right)); }
+  .intro { display: none; }
+  .bottom { left: auto; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); width: 240px; }
+  .controls { width: 100%; padding: 10px 12px; }
+  .tip { left: auto; right: max(16px, env(safe-area-inset-right)); bottom: calc(max(14px, env(safe-area-inset-bottom)) + 142px); width: 240px; text-align: center; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loading { transition: none; }
+}
 </style>
 </head>
 <body>
 <canvas id="world" tabindex="0" role="img" aria-label="可旋转的玻璃生态盒：雪山、森林、河流、瀑布和小动物。方向键旋转，加减键缩放。"></canvas>
+<div id="stage-bounds" aria-hidden="true"></div>
 <header class="top"><a class="back" id="back" href="/lab/"><svg viewBox="0 0 24 24"><path d="m14 6-6 6 6 6"/></svg><span data-i18n="back">返回实验室</span></a><span class="edition">STILLWORLD</span></header>
-<section class="intro"><p class="kicker" data-i18n="kicker">一方独立世界</p><h1 data-i18n="title">一方世界</h1><p class="summary" data-i18n="summary">雪山的融水，穿过一片森林。<br>把时间留在这只玻璃盒里。</p></section>
+<section class="intro"><p class="kicker" data-i18n="kicker">一方独立世界</p><h1 data-i18n="title">一方世界</h1><p class="summary" data-i18n="summary">雪山的融水，穿过一片森林。<br>把时间留在这只玻璃盒里。</p><p class="mobile-summary" data-i18n="mobileSummary">雪山、森林，与流转的日夜。</p></section>
 <p class="tip" data-i18n="tip">拖动旋转 · 滚轮 / 双指缩放</p>
-<style>@media(min-width:1001px) and (min-height:561px){.tip{left:6%;top:342px;bottom:auto;transform:none}}@media(min-width:601px) and (max-width:1000px) and (min-height:561px){.tip{left:5%;top:300px;bottom:auto;transform:none}}</style>
-<footer class="bottom"><div class="caption"><strong data-i18n="caption">山川、森林，与日夜</strong><span data-i18n="captionSub">一件可以靠近的微缩摆件</span></div><div class="controls" role="group" aria-label="场景控制"><div class="time"><div class="time-line"><label for="day" data-i18n="light">光与时间</label><output id="time-value" for="day">15:00</output></div><input id="day" aria-label="光与时间" type="range" min="0" max="24" step="0.05" value="15"></div><div class="tools"><button class="tool" id="cycle" aria-label="自动昼夜" title="自动昼夜" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M20 13a8 8 0 0 1-9-9 8 8 0 1 0 9 9Z"/></svg></button><button class="tool" id="motion" aria-label="播放环境动效" title="播放环境动效" aria-pressed="false"><svg class="play-icon" viewBox="0 0 24 24"><path d="m9 5 10 7-10 7Z"/></svg><svg class="pause-icon" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg></button><button class="tool" id="reset" aria-label="恢复视角" title="恢复视角"><svg viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></svg></button></div></div></footer>
+<footer class="bottom">
+  <div class="caption"><strong data-i18n="caption">山川、森林，与日夜</strong><span data-i18n="captionSub">一件可以靠近的微缩摆件</span></div>
+  <div class="controls" role="group" aria-label="场景控制">
+    <div class="time">
+      <div class="time-line"><label for="day" data-i18n="light">光与时间</label><span id="sky-phase">午后</span><output id="time-value" for="day">15:00</output></div>
+      <input id="day" aria-label="光与时间" type="range" min="0" max="24" step="0.05" value="15">
+    </div>
+    <div class="tools">
+      <button class="tool" id="cycle" aria-label="自动昼夜" title="自动昼夜" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M20 13a8 8 0 0 1-9-9 8 8 0 1 0 9 9Z"/></svg><span class="tool-label" data-i18n="cycleLabel">日夜流转</span></button>
+      <button class="tool" id="motion" aria-label="播放环境动效" title="播放环境动效" aria-pressed="false"><svg class="play-icon" viewBox="0 0 24 24"><path d="m9 5 10 7-10 7Z"/></svg><svg class="pause-icon" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg><span class="tool-label" data-i18n="motionLabel">风与水</span></button>
+      <button class="tool" id="reset" aria-label="恢复视角" title="恢复视角"><svg viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></svg><span class="tool-label" data-i18n="resetLabel">复位</span></button>
+    </div>
+  </div>
+</footer>
 <div id="notice" role="status"></div><div class="loading" id="loading"><span data-i18n="title">一方世界</span><p id="load-text" data-i18n="loading">正在安放山川与森林</p></div><noscript><style>#loading{display:none}</style><p style="position:absolute;top:45%;left:20%;right:20%">这个 3D 场景需要开启 JavaScript。<a href="/lab/">返回实验室</a></p></noscript>
 <script>"use strict";(()=>{var Ym=Object.defineProperty;var qm=(s,t)=>{for(var e in t)Ym(s,e,{get:t[e],enumerable:!0})};var Qc={};qm(Qc,{ACESFilmicToneMapping:()=>kr,AddEquation:()=>qi,AddOperation:()=>Qp,AdditiveAnimationBlendMode:()=>Ud,AdditiveBlending:()=>Zi,AgXToneMapping:()=>Vc,AlphaFormat:()=>Cd,AlwaysCompare:()=>_m,AlwaysDepth:()=>cl,AlwaysStencilFunc:()=>ru,AmbientLight:()=>Ac,AnimationAction:()=>Fc,AnimationClip:()=>Js,AnimationLoader:()=>Uu,AnimationMixer:()=>Ku,AnimationObjectGroup:()=>Ju,AnimationUtils:()=>AM,ArcCurve:()=>nc,ArrayCamera:()=>Yl,ArrowHelper:()=>vd,AttachedBindMode:()=>su,Audio:()=>Uc,AudioAnalyser:()=>Zu,AudioContext:()=>sa,AudioListener:()=>Yu,AudioLoader:()=>Wu,AxesHelper:()=>yd,BackSide:()=>tn,BasicDepthPacking:()=>lm,BasicShadowMap:()=>Jm,BatchedMesh:()=>jl,Bone:()=>ko,BooleanKeyframeTrack:()=>Ni,Box2:()=>od,Box3:()=>nn,Box3Helper:()=>_d,BoxGeometry:()=>En,BoxHelper:()=>gd,BufferAttribute:()=>ae,BufferGeometry:()=>Wt,BufferGeometryLoader:()=>Lc,ByteType:()=>Ed,Cache:()=>wi,Camera:()=>Ir,CameraHelper:()=>md,CanvasTexture:()=>Vo,CapsuleGeometry:()=>ac,CatmullRomCurve3:()=>Di,CineonToneMapping:()=>kc,CircleGeometry:()=>Ws,ClampToEdgeWrapping:()=>Nn,Clock:()=>zr,Color:()=>St,ColorKeyframeTrack:()=>ta,ColorManagement:()=>se,CompressedArrayTexture:()=>Cu,CompressedCubeTexture:()=>Ru,CompressedTexture:()=>Dr,CompressedTextureLoader:()=>Nu,ConeGeometry:()=>Ur,ConstantAlphaFactor:()=>Jp,ConstantColorFactor:()=>Zp,Controls:()=>ra,CubeCamera:()=>Wl,CubeReflectionMapping:()=>Ci,CubeRefractionMapping:()=>$i,CubeTexture:()=>Os,CubeTextureLoader:()=>Fu,CubeUVReflectionMapping:()=>Vr,CubicBezierCurve:()=>Ho,CubicBezierCurve3:()=>ic,CubicInterpolant:()=>bc,CullFaceBack:()=>eu,CullFaceFront:()=>Lp,CullFaceFrontBack:()=>$m,CullFaceNone:()=>Dp,Curve:()=>Tn,CurvePath:()=>oc,CustomBlending:()=>Up,CustomToneMapping:()=>tm,CylinderGeometry:()=>Li,Cylindrical:()=>sd,Data3DTexture:()=>Lo,DataArrayTexture:()=>Cr,DataTexture:()=>Fn,DataTextureLoader:()=>Ou,DataUtils:()=>s0,DecrementStencilOp:()=>ag,DecrementWrapStencilOp:()=>cg,DefaultLoadingManager:()=>Um,DepthFormat:()=>Ds,DepthStencilFormat:()=>Fs,DepthTexture:()=>Fo,DetachedBindMode:()=>em,DirectionalLight:()=>is,DirectionalLightHelper:()=>pd,DiscreteInterpolant:()=>wc,DodecahedronGeometry:()=>lc,DoubleSide:()=>Qe,DstAlphaFactor:()=>Gp,DstColorFactor:()=>Xp,DynamicCopyUsage:()=>wg,DynamicDrawUsage:()=>xg,DynamicReadUsage:()=>Mg,EdgesGeometry:()=>cc,EllipseCurve:()=>Lr,EqualCompare:()=>fm,EqualDepth:()=>ul,EqualStencilFunc:()=>fg,EquirectangularReflectionMapping:()=>wo,EquirectangularRefractionMapping:()=>Eo,Euler:()=>wn,EventDispatcher:()=>On,ExtrudeGeometry:()=>hc,FileLoader:()=>jn,Float16BufferAttribute:()=>pu,Float32BufferAttribute:()=>Et,FloatType:()=>vn,Fog:()=>Zl,FogExp2:()=>ql,FramebufferTexture:()=>Au,FrontSide:()=>Kn,Frustum:()=>Bs,GLBufferAttribute:()=>ed,GLSL1:()=>Tg,GLSL3:()=>ou,GreaterCompare:()=>pm,GreaterDepth:()=>fl,GreaterEqualCompare:()=>gm,GreaterEqualDepth:()=>dl,GreaterEqualStencilFunc:()=>_g,GreaterStencilFunc:()=>mg,GridHelper:()=>dd,Group:()=>$n,HalfFloatType:()=>zn,HemisphereLight:()=>Br,HemisphereLightHelper:()=>ud,IcosahedronGeometry:()=>Ui,ImageBitmapLoader:()=>Gu,ImageLoader:()=>Ks,ImageUtils:()=>Hl,IncrementStencilOp:()=>og,IncrementWrapStencilOp:()=>lg,InstancedBufferAttribute:()=>Ii,InstancedBufferGeometry:()=>Dc,InstancedInterleavedBuffer:()=>td,InstancedMesh:()=>li,Int16BufferAttribute:()=>du,Int32BufferAttribute:()=>fu,Int8BufferAttribute:()=>cu,IntType:()=>Wc,InterleavedBuffer:()=>ks,InterleavedBufferAttribute:()=>Ki,Interpolant:()=>Ys,InterpolateDiscrete:()=>Co,InterpolateLinear:()=>Vl,InterpolateSmooth:()=>rl,InvertStencilOp:()=>hg,KeepStencilOp:()=>Es,KeyframeTrack:()=>Cn,LOD:()=>$l,LatheGeometry:()=>qo,Layers:()=>Rr,LessCompare:()=>dm,LessDepth:()=>hl,LessEqualCompare:()=>Nd,LessEqualDepth:()=>Us,LessEqualStencilFunc:()=>pg,LessStencilFunc:()=>dg,Light:()=>hi,LightProbe:()=>Pc,Line:()=>ci,Line3:()=>ad,LineBasicMaterial:()=>sn,LineCurve:()=>Go,LineCurve3:()=>sc,LineDashedMaterial:()=>Sc,LineLoop:()=>ec,LineSegments:()=>Bn,LinearFilter:()=>Ve,LinearInterpolant:()=>Qo,LinearMipMapLinearFilter:()=>tg,LinearMipMapNearestFilter:()=>Qm,LinearMipmapLinearFilter:()=>ni,LinearMipmapNearestFilter:()=>po,LinearSRGBColorSpace:()=>js,LinearToneMapping:()=>Bc,LinearTransfer:()=>la,Loader:()=>ln,LoaderUtils:()=>ia,LoadingManager:()=>ea,LoopOnce:()=>nm,LoopPingPong:()=>sm,LoopRepeat:()=>im,LuminanceAlphaFormat:()=>Id,LuminanceFormat:()=>Pd,MOUSE:()=>rs,Material:()=>Je,MaterialLoader:()=>Ic,MathUtils:()=>Hr,Matrix2:()=>rd,Matrix3:()=>Qt,Matrix4:()=>Jt,MaxEquation:()=>Bp,Mesh:()=>Yt,MeshBasicMaterial:()=>We,MeshDepthMaterial:()=>Oo,MeshDistanceMaterial:()=>Bo,MeshLambertMaterial:()=>yc,MeshMatcapMaterial:()=>Mc,MeshNormalMaterial:()=>vc,MeshPhongMaterial:()=>_c,MeshPhysicalMaterial:()=>es,MeshStandardMaterial:()=>An,MeshToonMaterial:()=>xc,MinEquation:()=>Op,MirroredRepeatWrapping:()=>Ao,MixOperation:()=>jp,MultiplyBlending:()=>iu,MultiplyOperation:()=>oa,NearestFilter:()=>en,NearestMipMapLinearFilter:()=>jm,NearestMipMapNearestFilter:()=>Km,NearestMipmapLinearFilter:()=>yr,NearestMipmapNearestFilter:()=>wd,NeutralToneMapping:()=>Hc,NeverCompare:()=>um,NeverDepth:()=>ll,NeverStencilFunc:()=>ug,NoBlending:()=>Jn,NoColorSpace:()=>Mi,NoToneMapping:()=>Ei,NormalAnimationBlendMode:()=>Jc,NormalBlending:()=>Is,NotEqualCompare:()=>mm,NotEqualDepth:()=>pl,NotEqualStencilFunc:()=>gg,NumberKeyframeTrack:()=>qs,Object3D:()=>ue,ObjectLoader:()=>Hu,ObjectSpaceNormalMap:()=>hm,OctahedronGeometry:()=>Ko,OneFactor:()=>kp,OneMinusConstantAlphaFactor:()=>Kp,OneMinusConstantColorFactor:()=>$p,OneMinusDstAlphaFactor:()=>Wp,OneMinusDstColorFactor:()=>Yp,OneMinusSrcAlphaFactor:()=>al,OneMinusSrcColorFactor:()=>Hp,OrthographicCamera:()=>ai,PCFShadowMap:()=>bd,PCFSoftShadowMap:()=>Oc,PMREMGenerator:()=>zs,Path:()=>Gs,PerspectiveCamera:()=>ke,Plane:()=>Un,PlaneGeometry:()=>Pi,PlaneHelper:()=>xd,PointLight:()=>ns,PointLightHelper:()=>hd,Points:()=>Hs,PointsMaterial:()=>Qi,PolarGridHelper:()=>fd,PolyhedronGeometry:()=>ts,PositionalAudio:()=>qu,PropertyBinding:()=>_e,PropertyMixer:()=>Nc,QuadraticBezierCurve:()=>Wo,QuadraticBezierCurve3:()=>Xo,Quaternion:()=>He,QuaternionKeyframeTrack:()=>Zs,QuaternionLinearInterpolant:()=>Ec,RED_GREEN_RGTC2_Format:()=>zl,RED_RGTC1_Format:()=>Ld,REVISION:()=>Zm,RGBADepthPacking:()=>cm,RGBAFormat:()=>mn,RGBAIntegerFormat:()=>$c,RGBA_ASTC_10x10_Format:()=>Ll,RGBA_ASTC_10x5_Format:()=>Pl,RGBA_ASTC_10x6_Format:()=>Il,RGBA_ASTC_10x8_Format:()=>Dl,RGBA_ASTC_12x10_Format:()=>Ul,RGBA_ASTC_12x12_Format:()=>Nl,RGBA_ASTC_4x4_Format:()=>Sl,RGBA_ASTC_5x4_Format:()=>bl,RGBA_ASTC_5x5_Format:()=>wl,RGBA_ASTC_6x5_Format:()=>El,RGBA_ASTC_6x6_Format:()=>Tl,RGBA_ASTC_8x5_Format:()=>Al,RGBA_ASTC_8x6_Format:()=>Cl,RGBA_ASTC_8x8_Format:()=>Rl,RGBA_BPTC_Format:()=>vo,RGBA_ETC2_EAC_Format:()=>Ml,RGBA_PVRTC_2BPPV1_Format:()=>xl,RGBA_PVRTC_4BPPV1_Format:()=>_l,RGBA_S3TC_DXT1_Format:()=>go,RGBA_S3TC_DXT3_Format:()=>_o,RGBA_S3TC_DXT5_Format:()=>xo,RGBDepthPacking:()=>ng,RGBFormat:()=>Rd,RGBIntegerFormat:()=>eg,RGB_BPTC_SIGNED_Format:()=>Fl,RGB_BPTC_UNSIGNED_Format:()=>Ol,RGB_ETC1_Format:()=>vl,RGB_ETC2_Format:()=>yl,RGB_PVRTC_2BPPV1_Format:()=>gl,RGB_PVRTC_4BPPV1_Format:()=>ml,RGB_S3TC_DXT1_Format:()=>mo,RGDepthPacking:()=>ig,RGFormat:()=>Dd,RGIntegerFormat:()=>Zc,RawShaderMaterial:()=>Or,Ray:()=>oi,Raycaster:()=>nd,RectAreaLight:()=>Cc,RedFormat:()=>qc,RedIntegerFormat:()=>aa,ReinhardToneMapping:()=>zc,RenderTarget:()=>Gl,RepeatWrapping:()=>To,ReplaceStencilOp:()=>rg,ReverseSubtractEquation:()=>Fp,RingGeometry:()=>uc,SIGNED_RED_GREEN_RGTC2_Format:()=>kl,SIGNED_RED_RGTC1_Format:()=>Bl,SRGBColorSpace:()=>xn,SRGBTransfer:()=>pe,Scene:()=>Ji,ShaderChunk:()=>ne,ShaderLib:()=>Zn,ShaderMaterial:()=>Ae,ShadowMaterial:()=>gc,Shape:()=>Ai,ShapeGeometry:()=>dc,ShapePath:()=>Md,ShapeUtils:()=>si,ShortType:()=>Td,Skeleton:()=>Kl,SkeletonHelper:()=>cd,SkinnedMesh:()=>Jl,Source:()=>bi,Sphere:()=>$e,SphereGeometry:()=>jo,Spherical:()=>ss,SphericalHarmonics3:()=>Rc,SplineCurve:()=>Yo,SpotLight:()=>Tc,SpotLightHelper:()=>ld,Sprite:()=>Vs,SpriteMaterial:()=>ji,SrcAlphaFactor:()=>ol,SrcAlphaSaturateFactor:()=>qp,SrcColorFactor:()=>Vp,StaticCopyUsage:()=>bg,StaticDrawUsage:()=>Po,StaticReadUsage:()=>yg,StereoCamera:()=>Xu,StreamCopyUsage:()=>Eg,StreamDrawUsage:()=>vg,StreamReadUsage:()=>Sg,StringKeyframeTrack:()=>Fi,SubtractEquation:()=>Np,SubtractiveBlending:()=>nu,TOUCH:()=>os,TangentSpaceNormalMap:()=>as,TetrahedronGeometry:()=>fc,Texture:()=>Be,TextureLoader:()=>Bu,TextureUtils:()=>Fy,TorusGeometry:()=>Nr,TorusKnotGeometry:()=>pc,Triangle:()=>ei,TriangleFanDrawMode:()=>am,TriangleStripDrawMode:()=>om,TrianglesDrawMode:()=>rm,TubeGeometry:()=>Fr,UVMapping:()=>Gc,Uint16BufferAttribute:()=>Uo,Uint32BufferAttribute:()=>No,Uint8BufferAttribute:()=>hu,Uint8ClampedBufferAttribute:()=>uu,Uniform:()=>ju,UniformsGroup:()=>Qu,UniformsLib:()=>At,UniformsUtils:()=>Oi,UnsignedByteType:()=>ri,UnsignedInt248Type:()=>Ns,UnsignedInt5999Type:()=>Ad,UnsignedIntType:()=>Ri,UnsignedShort4444Type:()=>Xc,UnsignedShort5551Type:()=>Yc,UnsignedShortType:()=>Tr,VSMShadowMap:()=>ti,Vector2:()=>tt,Vector3:()=>E,Vector4:()=>fe,VectorKeyframeTrack:()=>$s,VideoTexture:()=>Tu,WebGL3DRenderTarget:()=>lu,WebGLArrayRenderTarget:()=>au,WebGLCoordinateSystem:()=>ii,WebGLCubeRenderTarget:()=>Xl,WebGLMultipleRenderTargets:()=>Sd,WebGLRenderTarget:()=>Ge,WebGLRenderer:()=>zo,WebGLUtils:()=>Am,WebGPUCoordinateSystem:()=>Io,WireframeGeometry:()=>mc,WrapAroundEnding:()=>Ro,ZeroCurvatureEnding:()=>Cs,ZeroFactor:()=>zp,ZeroSlopeEnding:()=>Rs,ZeroStencilOp:()=>sg,createCanvasElement:()=>vm});/**
  * @license

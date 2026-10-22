@@ -404,7 +404,7 @@
   #blackout {
     position: fixed; inset: 0; z-index: 6; background: #000;
     opacity: 0; pointer-events: none;
-    transition: opacity 1.5s cubic-bezier(.4, 0, .2, 1);
+    transition: opacity 1.1s cubic-bezier(.4, 0, .2, 1);
   }
   body[data-stage="7"] #blackout { opacity: 1; }
   /* 片头字幕卡：那两句起兴单独占一屏，字号比信大一档、字距拉开，
@@ -436,9 +436,9 @@
     letter-spacing: .14em; text-indent: .14em;
     color: #e4d9c4;
   }
-  /* 信里的空行＝屏上停一拍。这一段黑得比字长，读起来才有段落感；
-     匀速走的时候大约两秒多一点的空屏，正好是一口气。 */
-  .cline + .cline { margin-top: 3.6em; }
+  /* 信里的空行＝屏上停一拍。留一半就够：整段拉太长，读的人只看到黑屏，
+     匀速走的时候大约一秒多一点的空档，是一口气而不是等待。 */
+  .cline + .cline { margin-top: 3.0em; }
   /* 黑底上 overlay 会把颗粒吃掉（黑跟任何颜色 overlay 还是黑），所以这一屏
      换成极淡的 screen 颗粒，并且让它一格一格跳——胶片颗粒是动的，
      钉在原地不动的颗粒看着像屏幕脏了。外扩 6px 是给位移留的余量。 */
@@ -489,10 +489,7 @@
     body[data-stage="6"] #overlay { padding-top: 2.4vh; }
   }
 </style>
-<!-- 版本 2026-10-22 20:05 · 尾幕加电影感：进屏先出片头字幕卡（淡进 1.4s→停 2s→淡出 1.2s，信才起步）、
-     焦外按距离虚化到 3.2px（按 .25px 量化、跳档才写 style）、段落间距拉到 3.6em 留呼吸、
-     黑底上换成会跳的 screen 颗粒；抬手续走的三路通道与每帧兜底保留 -->
-     再加每帧 rollGuard 兜底（内核把 pointerup 弄丢时下一帧接回去）；抬手分支改看 rollHeld，不再拿 hadPress 当前提 -->
+<!-- 版本 2026-10-22 20:35 · 修：上一版把多行注释只换掉了一半，剩下一行成了 head 里的裸文本、被画到页面顶部（照片墙那一段上面压着一行字）；节奏：字幕卡 4.6s→2.7s、信 22→30 像素/秒、段距 3.6em→3.0em -->
 </head>
 <body>
 <div id="wishbg"></div>
@@ -2602,12 +2599,12 @@ let rollT0 = 0, rollRun = false, rollStarted = false, rollCardDone = true;
 let rollHeld = false, rollAnchorY = 0, rollAnchorScrolled = 0;
 let rollPumping = false, rollTimers = [];
 
-const ROLL_SPEED = 22;      // 像素/秒：整封一分多钟走完，读不过来有手按住
+const ROLL_SPEED = 30;      // 像素/秒：整封不到一分钟走完，读不过来有手按住
 const ROLL_LEAD = 40;       // 起步时第一行离画面下沿还差这一截
 const ROLL_REST = .5;       // 走完，最后一句落在正中
-const CARD_IN = 1400;       // 字幕卡淡进
-const CARD_HOLD = 2000;     // 停在屏上读两拍
-const CARD_OUT = 1200;      // 淡出，之后信才开始走
+const CARD_IN = 750;        // 字幕卡淡进
+const CARD_HOLD = 900;      // 停在屏上读一拍
+const CARD_OUT = 650;       // 淡出，之后信才开始走
 const FOCUS_BAND = .30;     // 离正中多远之内算合焦（占屏高比）
 const FOCUS_MAX = 3.2;      // 焦外最虚到几像素
 
@@ -2768,7 +2765,7 @@ function enterCredits() {
   ts.textContent = CONFIG.cardSub || '';
   rollCardDone = false;
   if (CONFIG.card) {
-    later(function () { card.classList.add('on'); }, 260);
+    later(function () { card.classList.add('on'); }, 380);
     later(function () { card.classList.remove('on'); }, CARD_IN + CARD_HOLD);
     later(rollStartRoll, CARD_IN + CARD_HOLD + CARD_OUT);
   } else {
