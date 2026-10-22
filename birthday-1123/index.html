@@ -390,8 +390,8 @@
     margin: 0 8px;
   }
 
-  /* 第 7 幕：尾幕。整屏压成纯黑，照片沉出画面，
-     信像片尾字幕那样从下往上匀速走，走完最后一句停在正中。 */
+  /* 第 7 幕：尾幕。整屏压成纯黑，照片沉出画面。先出片头字幕卡，
+     再把信像片尾字幕那样从下往上匀速走，走完最后一句停在正中。 */
   .photo.sink {
     animation: none; pointer-events: none; opacity: 0; filter: blur(6px);
     transform: translate(-50%, -50%) translateY(118vh) rotate(calc(var(--rot) + 5deg));
@@ -407,6 +407,22 @@
     transition: opacity 1.5s cubic-bezier(.4, 0, .2, 1);
   }
   body[data-stage="7"] #blackout { opacity: 1; }
+  /* 片头字幕卡：那两句起兴单独占一屏，字号比信大一档、字距拉开，
+     电影的字幕卡就是这个分量；它淡出去之后信才开始走。 */
+  #titlecard {
+    position: fixed; inset: 0; z-index: 8; pointer-events: none;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 1.4s cubic-bezier(.4, 0, .2, 1);
+  }
+  #titlecard.on { opacity: 1; }
+  #titlecard span {
+    font-family: var(--serif); color: #e4d9c4; text-align: center;
+    white-space: pre-wrap;
+  }
+  #tcText { font-size: 21px; font-weight: 400; line-height: 2.1;
+    letter-spacing: .34em; text-indent: .34em; }
+  #tcSub { font-size: 12px; font-weight: 300; margin-top: 2.6em;
+    letter-spacing: .46em; text-indent: .46em; color: rgba(228, 217, 196, .5); }
   #credits {
     position: fixed; inset: 0; z-index: 7; overflow: hidden;
     pointer-events: none; opacity: 0; transition: opacity 1.1s ease .35s;
@@ -414,15 +430,31 @@
   #credits.on { opacity: 1; }
   #roll { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
   .cline {
-    margin: 0 auto; max-width: 31em; padding: 0 30px;
+    margin: 0 auto; max-width: 30em; padding: 0 30px;
     text-align: center; white-space: pre-wrap;
     font-family: var(--serif); font-size: 15px; font-weight: 400; line-height: 2.35;
     letter-spacing: .14em; text-indent: .14em;
     color: #e4d9c4;
   }
-  .cline + .cline { margin-top: 2.2em; }   /* 信里的空行＝屏上停一拍 */
+  /* 信里的空行＝屏上停一拍。这一段黑得比字长，读起来才有段落感；
+     匀速走的时候大约两秒多一点的空屏，正好是一口气。 */
+  .cline + .cline { margin-top: 3.6em; }
+  /* 黑底上 overlay 会把颗粒吃掉（黑跟任何颜色 overlay 还是黑），所以这一屏
+     换成极淡的 screen 颗粒，并且让它一格一格跳——胶片颗粒是动的，
+     钉在原地不动的颗粒看着像屏幕脏了。外扩 6px 是给位移留的余量。 */
+  body[data-stage="7"] #grain {
+    inset: -6px; opacity: .075; mix-blend-mode: screen;
+    animation: grainBeat .52s steps(1) infinite;
+  }
+  @keyframes grainBeat {
+    0% { transform: translate3d(0, 0, 0); }
+    25% { transform: translate3d(-3px, 2px, 0); }
+    50% { transform: translate3d(2px, -3px, 0); }
+    75% { transform: translate3d(-2px, -2px, 0); }
+  }
   @media (min-width: 760px) {
-    .cline { font-size: 17px; line-height: 2.5; max-width: 34em; }
+    .cline { font-size: 17px; line-height: 2.5; max-width: 33em; }
+    #tcText { font-size: 26px; }
   }
 
   @media (max-width: 520px) {
@@ -457,7 +489,9 @@
     body[data-stage="6"] #overlay { padding-top: 2.4vh; }
   }
 </style>
-<!-- 版本 2026-10-22 19:40 · 尾幕「抬手续走」补了独立通道：touchend / touchcancel / lostpointercapture 三路都收，
+<!-- 版本 2026-10-22 20:05 · 尾幕加电影感：进屏先出片头字幕卡（淡进 1.4s→停 2s→淡出 1.2s，信才起步）、
+     焦外按距离虚化到 3.2px（按 .25px 量化、跳档才写 style）、段落间距拉到 3.6em 留呼吸、
+     黑底上换成会跳的 screen 颗粒；抬手续走的三路通道与每帧兜底保留 -->
      再加每帧 rollGuard 兜底（内核把 pointerup 弄丢时下一帧接回去）；抬手分支改看 rollHeld，不再拿 hadPress 当前提 -->
 </head>
 <body>
@@ -475,6 +509,7 @@
 <div id="wall"></div>
 <div id="blackout"></div>
 <div id="credits"><div id="roll"></div></div>
+<div id="titlecard"><span id="tcText"></span><span id="tcSub"></span></div>
 <div id="grain"></div>
 <div id="hint"><span id="hintText"></span></div>
 <script>
@@ -1376,8 +1411,10 @@ const CONFIG = {
   ],
   sign: '',                   // 落款，如「—— 望星」
   metAt: '2026-08-02',         // 认识那天；尾幕「认识 N 天」按打开当天算，当天算第 1 天
+  card: '佳期如梦，欣然成诗。',   // 片头字幕卡那两句起兴，单独占一屏
+  cardSub: '',                  // 字幕卡下面那行小字，留空＝不出
   credits: [                  // 第 7 幕尾幕：一段一条，段内要换行就写 \n，{{DAYS}} 换成当天算出的天数
-    '佳期如梦，欣然成诗。\n佳欣，先祝你生日快乐🎂',
+    '佳欣，先祝你生日快乐🎂',
     '时间真的过得好快啊，咱俩都认识{{DAYS}}天了。',
     '现在想想那天，还真是我最幸运的一天。高中以后我就基本转去QQ音乐了，但那天也不知咋的，脑子一热又把网易云下回来了。先自己听了一小会儿歌，觉得无聊就点了匹配，没想到就匹到了你。咱俩的故事就这么开始了。',
     '一开始我就随口发了句“哈喽”，没想到你真回我了，还问我多大，让我加你抖音。原本我就是想着找个固定搭子，加你聊聊天。结果你说你是南昌大学的，我直接惊了，心想这哪来的天才少女啊，居然还让我加上了。说实话，那阵子我确实有点自卑，觉得咱俩不是一个level的，你就像高高在上的神女。也是那阵子，你开始跟我分享日常，你跳舞的视频、你的生日照片……后来慢慢发现，你其实是个活泼、漂亮又重感情的“天才疯女”。',
@@ -2553,21 +2590,29 @@ function showNextPhoto() {
 }
 
 /* ================= 第 7 幕：尾幕 ================= */
-/* 整屏压成纯黑，信从画面下沿往上走，像片尾字幕。三条口径：
-     匀速——位移按「流逝的时间 × 每秒像素」算，不数帧，60Hz 和 120Hz 是同一个速度；
-     手是主人——按住就停，按住期间内容跟手，往上拖往后读、往下拖回来看；
-     抬手接上——回到原来那档速度接着走，不跳、不倒带。
-   走完最后一句，它正好落在屏幕正中，就停在那儿。 */
-let rollEl = null, rollLines = [], rollCenters = [];
+/* 这一屏按电影的顺序来：
+     一、片头字幕卡——先只给那两句起兴，淡进来、停两拍、淡出去；
+     二、信从画面下沿往上走，匀速，不数帧（60Hz 和 120Hz 一个速度）；
+     三、只有正中那一带是合焦的，离开的行一边淡一边虚掉，像摄影机移焦；
+     四、手是主人：按住就停，按住期间内容跟手，抬手回到原来那档速度接着走；
+     五、走完最后一句，它正好落在屏幕正中，停在那儿。 */
+let rollEl = null, rollLines = [], rollCenters = [], rollBlur = [];
 let rollFrom = 0, rollTravel = 0, rollScrolled = 0;
-let rollT0 = 0, rollRun = false, rollStarted = false;
+let rollT0 = 0, rollRun = false, rollStarted = false, rollCardDone = true;
 let rollHeld = false, rollAnchorY = 0, rollAnchorScrolled = 0;
-let rollPumping = false, rollStartTimer = null;
+let rollPumping = false, rollTimers = [];
 
-const ROLL_SPEED = 22;     // 像素/秒：整封一分多钟走完，读不过来有手按住
-const ROLL_LEAD = 40;      // 起步时第一行离画面下沿还差这一截
-const ROLL_REST = .5;      // 走完，最后一行落在正中
-const ROLL_SETTLE = 900;   // 黑底压满再起步，别一边变黑一边出字
+const ROLL_SPEED = 22;      // 像素/秒：整封一分多钟走完，读不过来有手按住
+const ROLL_LEAD = 40;       // 起步时第一行离画面下沿还差这一截
+const ROLL_REST = .5;       // 走完，最后一句落在正中
+const CARD_IN = 1400;       // 字幕卡淡进
+const CARD_HOLD = 2000;     // 停在屏上读两拍
+const CARD_OUT = 1200;      // 淡出，之后信才开始走
+const FOCUS_BAND = .30;     // 离正中多远之内算合焦（占屏高比）
+const FOCUS_MAX = 3.2;      // 焦外最虚到几像素
+
+function later(fn, ms) { rollTimers.push(setTimeout(fn, ms)); }
+function clearTimers() { rollTimers.forEach(clearTimeout); rollTimers = []; }
 
 /* 「认识 N 天」按打开当天算，认识那天算第 1 天：2026-08-02 到 2026-11-23 正好 114。
    两头都折成当地零点再按整天数差，跨夏令时也不会多出一天少掉一天。 */
@@ -2580,8 +2625,8 @@ function rollDays() {
   return Math.round((b - a) / 86400000) + 1;
 }
 
-/* 起点和终点都从「最后一行」倒推：块顶在 H+40 时整封信挂在画面下沿之外，
-   块顶走到 to 时最后一行的中线正好压在正中，两者的差就是这一趟的行程。 */
+/* 起点和终点都从「最后一句」倒推：块顶在 H+40 时整封信挂在画面下沿之外，
+   块顶走到 to 时最后一块的中线正好压在正中，两者的差就是这一趟的行程。 */
 function rollBounds() {
   const last = rollLines[rollLines.length - 1];
   const from = H + ROLL_LEAD;
@@ -2592,25 +2637,34 @@ function rollBounds() {
 function measureRoll() {
   const b = rollBounds();
   rollFrom = b.from; rollTravel = b.travel;
-  /* 每行中线的位置量一次存着：滚动只动 #roll 的 transform，子元素布局不变，
-     没必要每帧再去问一次 offsetTop（那是会把排版重新算一遍的）。 */
+  /* 每块中线量一次存着：滚动只动 #roll 的 transform，子元素布局不变，
+     没必要每帧再问一次 offsetTop（那会把排版重算一遍）。 */
   rollCenters = rollLines.map(function (d) { return d.offsetTop + d.offsetHeight / 2; });
   if (rollScrolled > rollTravel) rollScrolled = rollTravel;
 }
 
-/* 每行的明暗按它离正中的远近算：从下沿淡进来，到正中最近最亮，越往上越暗，
-   出上沿前彻底淡掉。所以走到最后一句停住那一刻，全屏最亮的就是那一句。 */
+/* 明暗和虚实都按它离正中的远近算。虚化按 .25 像素一档量化，且只在档位真的跳了
+   那一帧才写 style——filter 每帧改一次，浏览器就每帧重绘一次那些字，手机扛不住。 */
 function paintRoll() {
   if (!rollEl || !rollLines.length) return;
   const y = rollFrom - rollScrolled;
   rollEl.style.transform = 'translateY(' + Math.round(y) + 'px)';
   const mid = H * ROLL_REST;
   for (let i = 0; i < rollLines.length; i++) {
+    const d = rollLines[i];
     const c = y + rollCenters[i];
-    let o = 1 - Math.min(1, Math.abs(c - mid) / (H * .42)) * .78;
+    const dist = Math.abs(c - mid) / (H * .42);
+    let o = 1 - Math.min(1, dist) * .80;
     if (c < H * .14) o *= Math.max(0, (c - H * .03) / (H * .11));
     if (c > H * .86) o *= Math.max(0, 1 - (c - H * .86) / (H * .11));
-    rollLines[i].style.opacity = Math.max(0, Math.min(1, o)).toFixed(3);
+    o = Math.max(0, Math.min(1, o));
+    d.style.opacity = o.toFixed(3);
+    let bl = o < .02 ? 0 : Math.max(0, dist - FOCUS_BAND) / (1 - FOCUS_BAND) * FOCUS_MAX;
+    bl = Math.round(bl * 4) / 4;
+    if (bl !== rollBlur[i]) {
+      rollBlur[i] = bl;
+      d.style.filter = bl > 0 ? 'blur(' + bl.toFixed(2) + 'px)' : 'none';
+    }
   }
 }
 
@@ -2633,8 +2687,8 @@ function rollPump() {
 
 /* 从当前这一格接上匀速：把「现在这一刻」对回已经走过的位移，抬手那一下不跳字 */
 function rollAuto(now) {
-  clearTimeout(rollStartTimer); rollStartTimer = null;
-  if (!rollLines.length) return;
+  if (!rollLines.length || !rollCardDone) return;   // 字幕卡还在屏上，轮不到信走
+  clearTimers();
   rollStarted = true;
   if (rollScrolled >= rollTravel) { paintRoll(); return; }
   rollT0 = now - rollScrolled * 1000 / ROLL_SPEED;
@@ -2644,7 +2698,7 @@ function rollAuto(now) {
 
 /* 手指按下：先停住。这时候哪怕她只是点一下没动，也是「停」这一档。 */
 function rollDown(now, y) {
-  if (!rollLines.length) return;
+  if (!rollLines.length || !rollCardDone) return;
   rollRun = false;
   rollHeld = true;
   rollAnchorY = y;
@@ -2684,7 +2738,7 @@ function rollGuard(now) {
 function enterCredits() {
   rollEl = document.getElementById('roll');
   rollEl.innerHTML = '';
-  rollLines = []; rollCenters = [];
+  rollLines = []; rollCenters = []; rollBlur = [];
   const days = String(rollDays());
   (CONFIG.credits || []).forEach(function (t) {
     const d = document.createElement('div');
@@ -2695,6 +2749,7 @@ function enterCredits() {
   rollLines = [].slice.call(rollEl.children);
   if (!rollLines.length) return;
   measureRoll();
+  rollBlur = rollLines.map(function () { return -1; });   // 逼第一帧把 filter 写一遍
   rollScrolled = 0; rollRun = false; rollHeld = false; rollStarted = false;
   paintRoll();
   document.getElementById('credits').classList.add('on');
@@ -2703,21 +2758,40 @@ function enterCredits() {
     el.classList.add('sink');
   });
   setHint('');
-  /* 蛋糕不用再一帧帧画了（loop() 里那句 stage !== 7），黑底也把它整个盖住了，
-     所以这边不必再费事把它的亮度压一档。 */
-  clearTimeout(rollStartTimer);
-  rollStartTimer = setTimeout(function () {
-    if (stage === 7 && !rollHeld) rollAuto(performance.now());
-  }, ROLL_SETTLE);
+  /* 字幕卡：淡进 → 停两拍 → 淡出，然后信才起步。卡片还在屏上的时候，
+     手指按下去不算「暂停」——那时候本来就没有东西在走。 */
+  clearTimers();
+  const card = document.getElementById('titlecard');
+  const tc = document.getElementById('tcText');
+  const ts = document.getElementById('tcSub');
+  tc.textContent = CONFIG.card || '';
+  ts.textContent = CONFIG.cardSub || '';
+  rollCardDone = false;
+  if (CONFIG.card) {
+    later(function () { card.classList.add('on'); }, 260);
+    later(function () { card.classList.remove('on'); }, CARD_IN + CARD_HOLD);
+    later(rollStartRoll, CARD_IN + CARD_HOLD + CARD_OUT);
+  } else {
+    later(rollStartRoll, 900);
+  }
+}
+
+function rollStartRoll() {
+  if (stage !== 7) return;
+  rollCardDone = true;
+  if (rollHeld) return;                 // 她正按着，等她抬手再走
+  rollAuto(performance.now());
 }
 
 function resetCredits() {
-  clearTimeout(rollStartTimer); rollStartTimer = null;
-  rollRun = false; rollHeld = false; rollStarted = false;
-  rollLines = []; rollCenters = [];
+  clearTimers();
+  rollRun = false; rollHeld = false; rollStarted = false; rollCardDone = true;
+  rollLines = []; rollCenters = []; rollBlur = [];
   rollScrolled = 0; rollTravel = 0; rollFrom = 0;
   const box = document.getElementById('credits');
   if (box) box.classList.remove('on');
+  const card = document.getElementById('titlecard');
+  if (card) card.classList.remove('on');
   if (rollEl) rollEl.innerHTML = '';
 }
 
