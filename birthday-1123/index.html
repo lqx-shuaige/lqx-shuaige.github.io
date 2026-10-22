@@ -157,6 +157,80 @@
     font-style: normal;
     font-display: block;
   }
+  /* 新加那一段「哎，你知道的，我嘴巴太笨……」里有 14 个字内嵌链上没有，
+     从 Noto Serif SC 400 的切片里现裁出来，一片管一段 unicode-range */
+  @font-face {
+    font-family: "Noto Serif SC Sub5";
+    src: url("data:font/woff2;base64,d09GMgABAAAAAAQYAA0AAAAABvwAAAPGAAIAxQAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPBEICoUchDABNgIkAwgLCAAEIAWEBgcgFyQYCBunBQguB+zG8RtiIFWHVK3Hstq9U4KXRYcexZkigLf7nLe7Z1QXkBXoKhXoMunoiupVAqpyf1BO03ownEm+7Wt+wYlz6eK8AMtGTZrnmTTTgRZQFuD/wDkX1TzAPZrvGTy6HfB08HtE4/E6OZIIAm3r1ku1LZAC8J5e2BKIIQkDbIsjirqeIjidLv4yEv/j3mlzUjr/CAONNLBojYetsXAsSjyhdO7zzDzo3X4a5AgsnsWEIReMvrpBEp+EXdKItkQFQP+rO0wiGRggEjoQyfSN3oPN9ID6iO3YRxmpTSQrgwcILBPPhDVhJRHiQimUsAnRGhLT/UEEJf9T1OSJNtn3NJC2EAgVAAGWWNLwlFBJhBIKyJSTJSMjQZPc8YSEpETERMRdSfsgN7LY13Usoaz39R6rq/v7aSBxjHnyY1Gg0jX0xwrZhJD3UBjaiaPCtYswCIRNDpA9FmFw6mEDu6jRxcG5NcjjQO5CYJFWRjddK4wlSa1e8z3FOOUAoLcmR5I3pavpXxP3bGAX7WbXNp9ys3Vqf18XbcOeYPSai8dOR60iPFgH6korvJ5EOdbtlef8S5BqwwJnSEM/LmAYpe1IXoQC1OMsltHZ6QJ+RjOgRsund/6O3tu5Iyu908mdWUAVrBEuaJGFZhO0wbMEwb+e4ujaU1SyPmfAkRrJN+Jp0GqYzjVnBPUdzdG5NYF6jR4erI2qc9Xwtc8r6yTcIzDsn0Pa2xvaIzL/15qKoeNy2bZS1C7v4LPL3Wn1HTpsBWu5q+5at322Ebl2ymM/vZotJSszGg4YzTj7Rtkn6/YyxX6BYHlE1XCbmxS7cPARv7rDAwvOH/2YMxBb61xEYm2fMoY//49tZ05e/LuLWsnjE+1b6ZMsj3K9X/jtz6vaTuF/LlBNXfVQGYeZbXUpf5O0EkBA5G7GzVpjJYv/yYxRD/Dy/l4BeJs6911V6mz8i3sD0kUgkKysTvxeFdp4EIgtBBRmMMaqRWwJImCI7Ms0C0pICABjAA8J6rJHIvmWIbFRCpFEW7dImklBQdI1DxYUctv5eRHATpI4CXJE+ruSpLHT4C2MJx/s+PmLFi2cIrGBHBcR5RHVespewoQQI0A03RYtDDsrPiIF8C2g9fh1DE8yLPnwEyOYh0iSRIkTJ0WEPglK9Jgxo0cJtTRD26YjXrRIHowF8Eu6QAQfP88idgPbBVuUrQoTij0h+OPgFbPFGkHCNA4qCeEhiE9t9eUjng8FstzwL1kyqRJxoIja1EJrjaEQ4nc18/M0b4Q/rhG04m9CAAAAAA==") format("woff2");
+    unicode-range: U+54CE, U+7B28;
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: "Noto Serif SC Sub5";
+    src: url("data:font/woff2;base64,d09GMgABAAAAAALcAA0AAAAABVwAAAKLAAIAxQAAAAAAAAAAAAAAAAAAAAAAAAAABmAANBEICoIEgXgBNgIkAwYLBgAEIAWEBgcgFyQYBhtjBAiO0wX3yMyBJAgwj5o0XUA4S08LCJN7ANAyTDmhBDLo/7/5WpRmAU18oJEGFq1xrcGJjIVjoQayqX98LDP4us3C0idEkYiQHdLVDajyupiOBigTlWogT/OikVARDooSUGiTJ6uKskju23NXdv8/HtRhwhEQkL56E3BGE1AACZgjEcRXcQbUuIB+9/8ZGe+JAHDECTUCQAFUBbSAcqoHFgG09CwNjA1VtZ0eVwxZbnn9nlV6yvDFJ9LnLrSceyxSjNh69KjepHmi8erVs1uWzF9tufDatdxWukkVs1e770iS0ZabvMs1+zB8/fiz6GmEYbUJxiceFhqHVs5atm1s27AtlVFLpw5fmluQcsb2p2+E0cntN/xWGzFilKuuyQ79lTOyDdt4//3d+saaHzcTU2rTNy3uqP+nILeNG97tY7pGXFqwPCUoNWzGOEP92wW588Wy4uyq9PYn3qaVJVSsTW3jUD9Yo9AxAwAEoHA01xp8ajKK/6ot5QuAR7t8D8Cznw94/R95WIYCmigACFCH/XsE8gVeeMjDCAAAAEDIF7TmhQAUymkBIKAzbdqSCFUHqIbSAneqaQVDBtOSShNplXAe0Bo0hjmtSaDoCca4fW9a8cGZUIIJIYqA9YpQwnEmRWvdtNSGM96011tv3cUSRBD9XBRIi1t5h7bSTRdB+OCFe71140yZNnrqoG2DtPDrPlqKoFQb7fTRWQs9hRJIMMGEEUC2EOLIUqRIljioxRrvZeivt55ayNdBu6ITAfD2daacBSoT83rpoJuunAtCezi0unP6ChZi+GocXbTQSZuebKuN/tqgIBJX/5JVSSjAlxix/1sJpYIwRnz5p/93UhPxkfsBoQQ3EQAA") format("woff2");
+    unicode-range: U+77DB;
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: "Noto Serif SC Sub5";
+    src: url("data:font/woff2;base64,d09GMgABAAAAAAMIAA0AAAAABWAAAAK4AAIAxQAAAAAAAAAAAAAAAAAAAAAAAAAABmAANBEICoIIgX4BNgIkAwYLBgAEIAWEBgcgFyQYBhtpBCg+DHBDNg6oJSYUl2asO3SZLo3chPvoI43+lsOcNA4e+P3hn3vfncDEBrKRyc2Nbmpg2kJzndv849/F2Hzw6yKukUzWSu2zlEZA7ffbx2HWxJJXqjf1JJrdGikx3RuNEOlulQ8OOf++JZhCpjnG+eerbDbJiBOuJzObIntUo6zoRcoqElGWOnnX3xshMbba/3/ztaiTZQHd44FGGlg29sVENrZxLNQA3/m2lxl83aYdaUdIYSBhsUO6WgMV7qJKgDyIGwJI16IYRheFAakMPPqKJHemw+BZ+q/EMPMHtS1YAIHb996DOyyQQAPWUASwhuYOUBSBnv9YzKIhDeSIzS0BIAEooA8KAd2ADgfQzzI1solXyri68O7N9b3Ksb29uhUpvEdceGyB40m3TWb5oa1uTBpmFoqiibv/vmly8FBTNeMlKTcB477mjxS+vRfPOWes/FHsHc5R/FvPRMlE2v+9VNu2bbFfvn3A/9U5N4FFq1WTdsltxn/yl1yHPcx/2hCcj+8mWrc+wE3jtFBSbfnUz8Nz+L75EJYL7/0zP2P+3OWI+YviHVUGoptG465xI04XJrW6GwBAAOmywXf8Ls0cfwTtDXi4XEXgJdanxgrnoRFAlwQgoLb/X6M9KqcORyIAAAAgwptJYgggFcIDEHSVvhooIt4AKAEOCN4qIJnqBU2RGyhh/kBHVUQAXaFRB5rDyBJ9Uhw6Glpmyn6ojgGH18BazxCHxMTBwYaNerJnCZWuoOII+9aW1KR0inSwxpE3tDM1IvTbXx/1GOUMjR0tdO3oqGho6ClFaNmFpaWF2ZEWa0wKujjY6UqYGuecUaK7p5njCJbiy/am1lY4+XCCxn7IOQmlNUzdbqlrbljSI0MXQxCaYM0PWYnElB7KkPo7VqWGyIb4/ffr5FaShXMQinUDAAA=") format("woff2");
+    unicode-range: U+76FE;
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: "Noto Serif SC Sub5";
+    src: url("data:font/woff2;base64,d09GMgABAAAAAAMcAA0AAAAABawAAALKAAIAxQAAAAAAAAAAAAAAAAAAAAAAAAAABmAANBEICoJUgjABNgIkAwYLBgAEIAWEBgcgFyQYBhubBCiuC7jDZOEvCEOiwQwO4UC7OcKjlfKFEkG132fP23ccYnKAZC+KyKVO/zhmxRZYpeKIFPIf+6v3V+zrRpzkBZHuEjOjkliK082lzSfq5Pg3LtKEW2xBq8SiKgWyyHjzGPs/PairE/H2/+9P1WQDhtc7/6AhDVhojYc5D/BaNtuiFvBTFxdr5LV2xYOlJBqFpmu6tnvdG/J0HxWRVWVzgPF9GIuoQkDWZVCUGho9ub0eKmbqEhW9+j/yrdECCJ6W79AKDskMCfUw7AWMVkAuF8xc+T8kTuwSkMblm5ogAzkqUAlUEVjDihoUDJWKIZPakBo596AZDS5uyoMtZy4d6nL+6rH1dln3/2Gfuahy9ODI07Ke5KFD5eXomeVVBOmtrtpSlDBs33n8eP0CqQajum2vpWqMCt9WYFnsrEL5XKQYFvH5HwNWWLfel4VrfLZK/sn8lLn1U/mTn4vb8kvvkGX+9qA4kl2yaqLHvdk601HaHcmgKaW15sd3yVpyuaRv04RAjTJlKzUtW9ldTfstVnDmVvwpzImeDZtuvhx107Jf90bWH7b5pfsZzK0xNSqWW6poscE5vvbIVc6O7wETS2pNT+0TjRVlOgCBzLWmH+ywmD7sa2lC5+C5feH1+cGM/6ULaSxQLANBvvXfc9JbMyhTC6MdKWeFnlfalcjAyj6BUqugRU4E5oANhHYGIFPDJkhmmYVcPw9QZFHUg2I9IrCWjC4wTYhHRUEpn7Q9qqLBU2mGwxQdHgEj71Sdisj5QCEzSTobcpqDjZyQbaN5OfB003Ez0Qesxl/7TNHqomPgYzXJTUVGQUFNqoFSsXrt2tUrVsbZz7RaQV5uk1qYGHzekKr3u7nFM+zj7/MwcbDj+UOjGqep1G+MMoR5MZtJFrrY1tMJ0okwT7b+odiRmTRHG5b/Sx/1qAX58q/ar7PbkTwtwsWsIwAAAA==") format("woff2");
+    unicode-range: U+5565;
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: "Noto Serif SC Sub5";
+    src: url("data:font/woff2;base64,d09GMgABAAAAAAPoAA0AAAAABpwAAAOYAAIAxQAAAAAAAAAAAAAAAAAAAAAAAAAABmAANBEICoREg2wBNgIkAwYLBgAEIAWEBgcgFyQYBhtXBSguCmwik4J9wjWb+RFCodwdHh6EP6S3EA//v/a/febOV42iUhW3ROkinli0YOk3PIomj/AO66pKJzMrGSfy8bLlDn5r67bvoe0tkTDQlrYgkyTgsC1NIOEasZLU1dA675s8KiQyL0Q5xYWiZiY4g/7/n6p5FA6F1zse0JAGLLS6Xi92LdC1bEzWf2r1ScuMapttQ+YRRBg+JEyOkF67Qp6ex00oAtllqgHYfM3HMdAOXZCZDqZS81a3eziA5T7dpcSZ/yE/gVqAAFV6ZrShWxmQpNEDwSAkKR9HYN/U/8L09DdAAAQ9QAJknnKpV3rS+46Qd9SXsBJWDsFKQgg7kaxiYGBmSaucRYFZUisXUdAQcmLBfBCYI8TCr1eXVPa2UA+rfGi/WGu+838dYTHNzKaxt3eWpypPhsewqH/fhKr2btgVRCG98rMPP126cOfe24E1YqQ5WGFRWlx8aMbCmYPYT/oTBmWhUuxtoeX47zAgHpiQs/j19YGTXdHy5vkaRIG9vabVh585PfHkP1p7e3mwjf29swbKFu+tWuoLvcxALJELT/77m65+9jzkXRLHpwSYK8xkj2ibhzlZHG6dUzV3HVVXvOS1kI1X6Q7/OoBS94/wcLWfgqez9fVR0xXIF6ufXsRemV7rkHSDpnRlDM8Tt/Nn64uUvYuPh8MvKjOpMNGS15bncrl+3UTNWbFdsa30sChmek/pRZ/nVqxtdO42ItGCWyOU7VFDJiyJObzWn5/IPS5jXnE6LUZH/46DKa+HA5gz+g3sxb/3eGEvb/nPzHJq/m7PB17bAKMoEaVvyPefLw7821iyrFxpQL0wEKzebX18VeJGZOVDqbaB34FttK5DM1w0+j0AAWQuPUj8SkyW/pYm/BXeP3+8BfhcmP9QCqeXlgEUowAC5Cf+vSd9tZViOivYZKSvjnP7BBd3KZX1dqlUPAzlTAAOgIARWYFMYVfKmL9mJnS9ZZrwaGQ69cgGJ02tKIYSSdo0aTGgdr5Cmy5JVmJliBZHkqJEuXJlMqZBQ8HdUxeVjAJvjAxpNCiRuypXBkk+4mRLEj9g4yWvNqfHW5wEwe2pomTTpk6TJh1qHGkx4cCDBwcmzLymqrJTKFe2KK6SJPQ8o8bevc05ScA/LzmoZ0jHpn5IZCMmJfnQtLJu1USaKCni5mS8OIXiSNCnbf5RvpGfWgmzwMLahNGohf78x7cu7CD5dB4R++IgAA==") format("woff2");
+    unicode-range: U+5634;
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: "Noto Serif SC Sub5";
+    src: url("data:font/woff2;base64,d09GMgABAAAAAASAAA0AAAAAB5wAAAQwAAIAxQAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPBEICoY8hSMBNgIkAwgLCAAEIAWEBgcgFyQYCBsaBkguCmwiwwdrRJLw6UQTEtJcKMf15eZHCiJay6pn9jZEKInIxhGr5AHZogKUz4pYsc0e5b0/aVJtSm0hM32VtvqATqCP4Pxf8522Rdq1aVStbGLNI0sf/dvTA7JWYC2jOE6qtcv9cDjo5wd//iD++/9/quZTODRwkqSEBSuNefOwc1ppDRxLawXrqUg9pzYWbhEs1bYlIlTBGo4WwpyTe0ivHYChn8oObKDWVQdA9dkrfViKNaCEBxF77qG8PswP3Jurx/30hBUYixIKIBBkz4RwBBQFaHgvJCwwxDMzLShI1RqoemVr2e3hw0HMnBtACCTn0yaegNQ5yeDLwQFnfwcRQYSUHRllZ1GGEWVEWR1nNm8P0dXbeSg79Ul28YpMbMe2/N4nklR2T94+Eedz9UX08C3waM2J7vLj1TDhiDYfohOWd8/LcshZySVJPTArP4YjMkz7kVPWvHk53gldquPs8ePsxn7KltmKzPY9BDkKioKzNL12BDY6/fyTf1zAsYfmHk4mMVSiKSqmY7BbWdMXT/O1n3neRAziT3ZecPPyQ4lcx5EjSulD07LnHwF247UDuaAwKIej9Ver5z5Ohrv0VLjKxG7f+Z2FJ+Dykm73SyN/2lHJyauVI9p5ZfbnZk9iW293Py+Pr4xh2fRJySA7a9rayyJUP+jsBY3IVrGjPpHI7co9+4Oy+M8z5dXqPvZSv9wcNHst4w7SAQ7Ys9v90nuPJ2zx/T9/lxKHB2jxuzw/TNL8o1x9Gt5DAddnj6oOzPQlfSa4IxGCogOOkVqvSk9EUd2YckfmSVgIY+3BCTTmWjd+/+T73lvK3bytxj9f5KdG9t83F/a8rY0luyLNzTWlJAmH0xVOIfrbuItjZBh4hmbgvKqP4kl1ogNP4tw2u1Bnn8L3sFaaZB0CtmIXfO58kyadneL/kFfonVCQyj17eejcHiNf/vD+huj9qTdj2rBEctwc1a5doza0zdKy7dP6FXNdvxy87TWLnMfBLQf/sGDH5qL9KYUuQiE/vyID0YHGfoFzh15tZpOrImN8fQosAQAEUDwY+1iWJp7z317TXwE+rtUJwNcfv5Cs1Pd0AYCJCtYZi5sfYSRj0HGsQRCIqY2gi46mOYnzCoH22TMGjRjCAB2ANoRo4g2FK3OGpo1BwyCbt4aNPvE2TFKlktxR9vpkYYA6lphjgR0mxyMssUYdD7IpI5Mc1NEnn2qqKccRM8youwqmZPjcGlmMEhsGmoWierrDiOJaJQXkMnktqAl90oZIcsijhmIyqMQSU8wxxwoT/LHACT/CCMMPJ2Co+ErSh3qjjkoyCC6Ul3KJCXjyLMvUK8W6UVW3lVGKejrKB1OWB7WVswjMYSdKyKCIHGrPJYd6cjBkixq9TyiPmUmERpxaTSbN4g71b9P517mejqG+AAiwLQcA") format("woff2");
+    unicode-range: U+5374, U+9047;
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: "Noto Serif SC Sub5";
+    src: url("data:font/woff2;base64,d09GMgABAAAAAAKUAA0AAAAABRQAAAJFAAIAxQAAAAAAAAAAAAAAAAAAAAAAAAAABmAANBEICoE8gTUBNgIkAwYLBgAEIAWEBgcgFyQYBhsgBAgehU2ZL3Yk8ZQXf0trawfymBsP/+3X7puZL2kXO10zHrcjltRL0kwoxGQl46cvmf/Z33s/5PebOQgNdAZRoQxlKO0sLTLvJRcir/91i5cWMKA3vqCRBhZdx8fGE+rG40IN8E8W2AkCOaXbvLIOk0QkRHaMrg4o+S3GoCI9YnMBrFo1jsEWDpBMgqZVtbiZEgOhR3+DxdWjgXKPUQJB+9pXjCIiIWMETmAE3ihQFMFRH0WDssGAgDhuP8sCCRTU6AGLABRAXRiKGo+vomGpZdSQraktPrZ/a4tKrabBwx2NMXgjmz18ltGytrfhYe/ygUofeDrHEDBZVDw1jwWdxILO22dYfFhsHDU2PTiq6wNO90Sjjt+HW1WTzi1/YKeGwooKMDCnO1oaI5KZTQzfCKTx+o1r6iSEPhSuHhxVjIr1owAIJM/sxWZNHivw1+Jwn/B+szbgG93/0o/e5zMcE6glEJT7/w/yrweYyWcQAIDIny71QyDpIYKw9lrXcKJQgF2QIUzKRdJxg2zbAIoF76gcBx+1qWikARyvUUQLYWNh5WbUM2wcEGGK1SlUAqFRrlmzej5mZm0uMymoWplapE4NM61I5prVQWQo0ahCaUYR4e0WhZzSlSjTolqBRjYmFhZ2RrGs/GKkSBHDDw3FFS5Ku2aNCiSqUEa6YoQP51lDJmU3tjWpUKcWQkjlcCqq5VshrEy+7VejQJWSnS9Vol0Jily47pdCJj1jinMY/R/DnJYYgOn/0//O7LmEvAyEHZJz") format("woff2");
+    unicode-range: U+5DF4;
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: "Noto Serif SC Sub5";
+    src: url("data:font/woff2;base64,d09GMgABAAAAAAUEAA0AAAAACFgAAAS1AAIAxQAAAAAAAAAAAAAAAAAAAAAAAAAABmAARBEICodkhj0BNgIkAwoLCgAEIAWEBgcgFyQYChvABiAehU3ZXRRnMcVQFZvxvQUR1n1fneRpFvSHgROl485QXjZbESvXKQCnIu8rfYWesBHn9//fO+39Jo7FY4pGGlj0f/t228MLx1iaYEKdcGyLok5kAWvAmm5D8qQAPSwlHXb+AEY/lHk4QM1QzQDUnI3SBqSgAWryUeDmGarWtTUD9OYale90P3samLESC0AgkTwSxcMiUBANwQbKI2Ii3zdu3ChonulbVvnOtqV3y4N1I5JkAAJNCRKCfi6dTrEPiAZIWYAcAA5d5sXeeAf6cXr7uo3l7eNjjI+vd5gXh4/XssPytbzNyEVNSo8qdpJ4IUI0v2fkLASvij1/2iUwf2hsTbiJwz+SN+jSvb3ubbBKx/N9jZ7CTFBWe9uokMtIK8IhjS3Gz+AQH7xl2NYXDyyF4ce7UGiTilWJD5148UCyCS41eo2LJ825CRZiyNsEc1i6MVzSfgZbLMpgTQohkZ2obmOfWNk7k0AtCuYdaqVVVEeRX87ZtkvIJX9EdOLgwYFk07NrU+NGYZWe58xmIy8emInDj3eN/Z/u3c2tglU69m/fa7TMtV804urs2Trdt3rmD42NCTdx+Eb6JSULaSGjHeS2wgxQVnvXDcM6ruSkkih4PS2+Aln2M+yf1mgOOCKTjPDs/wPExr02vJvQElLbl5+M3x1j3j3kPK+0yXK6gxm7V7XCHYHt3ZXxBMl+kcpwWmWP07jmOHvNehDQuW89LRtuV/1yYdfzmkTIm+tNzFh1CGmSDh5efXw/N8W4G9ExwSxymm+3tqUyFwnZBFKfdJY0Y2FAiqN0qLKzd42VthdG/HfvGViaoY6NrkHFSTlDAv3r5SMDAiZqcjxkOZBPu7pqZVU4bIomH3WHbKnGEa/bM0ZO47TWJ0xKZ0mnz+//Pd6Bpt+41cQh1MZ78qmZr0VgaNRv/ydebxYbFb0xYWLqSfdDeoswr4R+OvWa8cswbm/7LNPb48+GHfcxtbGziOBMzONwEFcfKBbw/5hVjjLMfVSWr1AS2fcalNcuE4Zn/REjzG/eteKPFhyVXbGU9KdG8deflrh8NWu5qMYXx8Rfs+TpQkXFvHTr3UdG9TsXVZUUjMPHuk8HJmrkhyHX8ronKAlYI8C9+eKRsiLBWUzru2oZoR2NF8aECWamTpmysh/vJY8FJzAPzLLL2uI5KKpcEYyHQJoezZbKblJeD0CfDlo9y5xXjkTE7qwGAAigONe298uitryl/rm1/gjw+kLfUQC8t/f/JNbeo2/oagCcKAAEzNjcQH8kFnF9g6Agh6lOqAWgDqsNc/BeI+gxN11gRIwHaAZwtUIyblqFL6O0miZUaA2FeKl10EaCtU7ySAL6Q+1XIxB15ECihz44tMe1SNDIYUAQsQQQjBxqhJG0KOMgooupS0EH/zDahUCG6GNQJ2IDSSMlhyOVEggnhNDIeHcyAWBwIJhQkonCnwSQ6KCHHii0gdCHhBm22GIGCdDFNk6ZkHYACQBgNTC0yBXawNOXskpO0CUYEmVTLDHIFYdhwBgYAilC9O1bO4lo/IkkuEGICWlkh0Es1PjruMoxpR1hRM3ahylAufiD+Jvr/dtZno6K3geEbsVsdFED") format("woff2");
+    unicode-range: U+592A, U+5F88, U+8BE5;
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: "Noto Serif SC Sub5";
+    src: url("data:font/woff2;base64,d09GMgABAAAAAAQoAA0AAAAABxwAAAPYAAIAxQAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPBEICoU8hD0BNgIkAwgLCAAEIAWEBgcgFyQYCBu0BQieA+5qGIuxGylsYn/ZVy4PY4wHan/8n929zx8QIp3I6WJmdBQa1KiFcbhLVhLdwXUnBz/od5GTvXlAiUZBAQa1RQ8Ca2utmgK5W9zENfV70zV/nT/oSAc2+uhFWQVQNEbpDAdSaZWgM+DZtkwie7SFThyTODbptQNkaTPsk0PcEScBGDprwwwQDMIgTgM45DvGwJF6aiA/LjvfKC3+30a2CaEGEFgGj021oOIRSStnPKGakDUCc6NBBOX//4fy51Ys6jsFpBYCiZKAPLBgOeZLQiWAP/vkBMWKoePgIGPiYGHiYCML1u6PzVIMy2354XgpbyatnDmck+OLmzEL0bQ8ygQUBAQTHMUmypkUNzMja/5uGxvADq57D4wrzD4+NCuaWJzJOucaqxzuKzU+oaSjg6QYsxhl8bDy/n5yzKpjTVTWQARJXchp0vY9ehB9/KmG30nzL5mJEeNnIbmOrNfc3kxae8CzE1rAbLt5CcqSwVklJNMP97F27jTTfJo8MzMTc8ejp3ikmLh4apEfJjbt2tyjeufhdE1qZkWwrXC6OlIhZZHSDr/He6FUvbVfaEfT19n8Cvzz+HxVKUyeb3V/ZM9Wlyg2V5tyLTTaYgfVpxgrqGYiLkeotAWrcLAhX/WW1YvH0kVE7E4ee/ZUfZtwCd5Q1aWvC6qg8G2hL6RSRRuliLe3RZxQCcGfvyc0IbsUMwXyjiaVFdcHdlhgTOhshPx+dYmit1qUa1rTOngysTX50LOP5i93KvciU4iyGqCNoY1OvfwJJNHE0Bglqo2QUbG4OQGVt2EV3s+sfdFpMiPJ3T+lGwzzmLRHfeLYcLFoXgyYlcKZ2x7dW2XhzjYpM0nFjbJZeGc4iDllUDgqdGVdh4tJHe/Dzkhq+sfE9AQc69HorhGz9oBqM5eWsIZnTcukz1brTYrGqsIeSgAQEN24dt2zmSW7fc1PSE/w4lb9BLz53z6o87+n62kQgFwRBLJNf5PeqYM5zQmEFgLkPIyYyGSvYiMCWpZvASQhwwAmAY8O6jGnoxLW08kEmXSmnSs6x4xQjs7VIgR6SuHms3PCgZ4gfgLE8Bys3k4YPQXO/DhyQY+du2DG/Uni84SpFC+HKOsxnfjxwYcD1J0XzA89Iy4CeXD1PErm2yEciTDkwk0Ibw4CCeLFj58QHuoESFGjR48aKajCAs9TES5YIAfaPLglHcID7zzPMPruMV0YL4gHP77oE3rc4R6nmBbaAQFJN0vx4cCLC2muNhHOBeURxbXeScnkjCeCRLj8P7RRHEpB+PKv2M9zvxHONIHAUrQFdgA=") format("woff2");
+    unicode-range: U+548C, U+9053;
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+  }
   :root {
     --ink: #f4ecdf;
     --muted: rgba(244, 236, 223, .64);
@@ -164,7 +238,7 @@
     --gold: #d8b778;
     --gold-soft: rgba(216, 183, 120, .55);
     --ease-soft: cubic-bezier(.33,.55,.25,1);   /* 起步不抢、收尾不拖，场景位移统一用它 */
-    --serif: "Noto Serif SC Sub", "Noto Serif SC Sub2", "Noto Serif SC Sub3", "Noto Serif SC Sub4", "Noto Serif SC", "Songti SC", Georgia, "Times New Roman", serif;
+    --serif: "Noto Serif SC Sub", "Noto Serif SC Sub2", "Noto Serif SC Sub3", "Noto Serif SC Sub4", "Noto Serif SC Sub5", "Noto Serif SC", "Songti SC", Georgia, "Times New Roman", serif;
     --sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   }
   * { box-sizing: border-box; }
@@ -489,7 +563,7 @@
     body[data-stage="6"] #overlay { padding-top: 2.4vh; }
   }
 </style>
-<!-- 版本 2026-10-22 20:35 · 修：上一版把多行注释只换掉了一半，剩下一行成了 head 里的裸文本、被画到页面顶部（照片墙那一段上面压着一行字）；节奏：字幕卡 4.6s→2.7s、信 22→30 像素/秒、段距 3.6em→3.0em -->
+<!-- 版本 2026-10-22 21:10 · 照片墙那一下补上「起手在照片上就不算离开」：手机上拖一张卡挪到别处再松手，松手点常常已经在空白上了，只看松手点会把她误送进信里；信里新加那段缺的 14 个字补进 Noto Serif SC Sub5 -->
 </head>
 <body>
 <div id="wishbg"></div>
@@ -1416,6 +1490,7 @@ const CONFIG = {
     '现在想想那天，还真是我最幸运的一天。高中以后我就基本转去QQ音乐了，但那天也不知咋的，脑子一热又把网易云下回来了。先自己听了一小会儿歌，觉得无聊就点了匹配，没想到就匹到了你。咱俩的故事就这么开始了。',
     '一开始我就随口发了句“哈喽”，没想到你真回我了，还问我多大，让我加你抖音。原本我就是想着找个固定搭子，加你聊聊天。结果你说你是南昌大学的，我直接惊了，心想这哪来的天才少女啊，居然还让我加上了。说实话，那阵子我确实有点自卑，觉得咱俩不是一个level的，你就像高高在上的神女。也是那阵子，你开始跟我分享日常，你跳舞的视频、你的生日照片……后来慢慢发现，你其实是个活泼、漂亮又重感情的“天才疯女”。',
     '希望这一百多天只是个中途站，咱还有下一个一百多天，下下个一百多天，能一直在一起，好嘛？',
+    '哎，你知道的，我嘴巴太笨，不知道该说啥，但我却是真心的，真心的祝你生日快乐，真心的觉得遇到你很快乐，真心的不想和你有矛盾……',
     '生逢佳期万事欣。愿你岁岁常欢愉，年年皆胜意。'
   ],
   photos: [                   // 照片墙：换成自己的照片和配文
@@ -2131,6 +2206,8 @@ let typedDone = false;
 let shownIdx = 0;
 let wallZ = 10;
 let photoDragMoved = false;
+let pressOnPhoto = false;                 // 这一下是从某张照片上起的手
+let wallArmed = false, wallArmAt = 0;   // 照片墙点完之后的「预备走」与那一刻
 let revealTimers = [];
 let fontsReady = false;
 
@@ -2461,6 +2538,7 @@ function showAllText() {
 
 /* ================= 第 6 幕：照片墙 ================= */
 function enterWall() {
+  wallArmed = false; wallArmAt = 0;
   setHint(HINTS[6]);
   typedDone = true;
   const c0 = cakeLight, s0 = cakeScale;
@@ -2581,8 +2659,9 @@ function showNextPhoto() {
   el.appendChild(cap);
   document.getElementById('wall').appendChild(el);
   if (shownIdx >= CONFIG.photos.length) {
-    /* 最后一张出完不把提示行空掉：尾幕就藏在这一下里，不写一句她找不到 */
-    setHint((CONFIG.credits || []).length ? '再点一下' : '');
+    /* 最后一张出完不把提示行空掉：尾幕就藏在这一下里，不写一句她找不到。
+       措辞说「点空白处」，因为点在某张照片上这一屏已经不算了。 */
+    setHint((CONFIG.credits || []).length ? '点空白处看信' : '');
   }
 }
 
@@ -2819,6 +2898,10 @@ window.addEventListener('pointerdown', function(e) {
   pointer.x = e.clientX; pointer.y = e.clientY; pointer.down = true;
   cakeDragDistance = 0;
   photoDragMoved = false;
+  /* 起手的落点要记下来：手机上「按住一张卡拖到别处再松手」，松手那一刻手指
+     往往已经不在照片上了。只看松手点的话，这一路会被当成「点了空白」——
+     她想挪开一张卡看清楚，结果被送进信里。起手在照片上，这一下就不算离开。 */
+  pressOnPhoto = !!(e.target.closest && e.target.closest('.photo'));
   blewThisPress = false;
     if (stage === 7) { rollDown(performance.now(), e.clientY); return; }
   if (stage === 3 && !blown) {
@@ -2848,10 +2931,21 @@ window.addEventListener('pointerup', function(e) {
     return;
   }
   if (stage === 6) {
-    if (photoDragMoved) return;
-    /* 六张点完，再点这一下就是尾幕 */
-    if (shownIdx >= CONFIG.photos.length && (CONFIG.credits || []).length) setStage(7);
-    else showNextPhoto();
+    if (photoDragMoved) { wallArmed = false; return; }   // 挪过照片，刚才那下不算要走了
+    if (shownIdx < CONFIG.photos.length) { showNextPhoto(); return; }
+    /* 六张点完之后，这一屏的「点一下」不再直接进信。她想截图、想把某张卡挪开
+       看清楚、点完最后一张顺手又点了一下——手都会落在这儿。所以：
+       点在有照片的地方一律不算要离开；点空白先只把入口备着（提示行换一句），
+       再点第二下才真的进信。两下之间卡 260 毫秒，防的是一次点击被内核拆成两下。 */
+    if (pressOnPhoto || (e.target.closest && e.target.closest('.photo'))) return;
+    const now = performance.now();
+    if (!wallArmed) {
+      wallArmed = true; wallArmAt = now;
+      setHint('再点一下，信就来了');
+      return;
+    }
+    if (now - wallArmAt < 260) return;
+    if ((CONFIG.credits || []).length) setStage(7);
     return;
   }
   /* 抬手主路：只看「是不是停着」，别拿 hadPress 那套记账当前提——
