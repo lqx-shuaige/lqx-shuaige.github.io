@@ -1950,28 +1950,12 @@ const WIDE_SLOTS = [
   [0.40, 0.40, 4], [0.62, 0.30, -4], [0.50, 0.80, 2]
 ];
 
-/* 窄屏照片墙：两列错落，后出现的照片永远在最上面。
-   摆放时把「已经出现的配文」当软约束——新照片先往下让，让不开就宁可压到人
-   家配文头上一小截，也不把照片缩成邮票；只有竖着实在放不下才缩一档重排。 */
+/* 窄屏照片墙：两列错落，后出现的永远盖在先出现的那张上面。
+   怎么摆的见下面 layoutMobileWall 前那段注释（mobileBox / mobileCapBox 两个
+   算「配文保护框」的帮手随让位算法一起删了，别再照它们想事）。 */
 const MOBILE_ROT = [-6, 5, 3, -4, 2];
 const MOBILE_COL = ['L', 'R', 'R', 'L', 'L', 'R'];   // 两张横图归左列顺着一张往下叠；第 6 张（竖版视频）换到右列，免得左列四张挤爆
 const mobileWall = [];
-function mobileBox(cx, cy, w, h, deg) {
-  const a = deg * Math.PI / 180, c = Math.abs(Math.cos(a)), s = Math.abs(Math.sin(a));
-  const hw = (w * c + h * s) / 2, hh = (w * s + h * c) / 2;   // 斜过来之后的外框
-  return { l: cx - hw, r: cx + hw, t: cy - hh, b: cy + hh };
-}
-/* 配文在卡片里的位置：贴着下沿（内边距 12），块宽等于卡片内宽，但两头各有一枚
-   10px 短横加 8px 间距是装饰，压到不要紧 —— 所以保护框按文字宽度往里收 18px。 */
-function mobileCapBox(cx, cy, cardH, capW, capH, deg) {
-  const a = deg * Math.PI / 180;
-  const dy = cardH / 2 - 12 - capH / 2;
-  const mx = cx - dy * Math.sin(a), my = cy + dy * Math.cos(a);
-  const w = Math.max(capW - 36, 40);
-  const hw = (w * Math.abs(Math.cos(a)) + capH * Math.abs(Math.sin(a))) / 2;
-  const hh = (w * Math.abs(Math.sin(a)) + capH * Math.abs(Math.cos(a))) / 2;
-  return { l: mx - hw, r: mx + hw, t: my - hh, b: my + hh };
-}
 /* 窄屏摆放的口径（2026-10-22 第三次改）：**新照片只往上叠，绝不动已经排好的那几张**。
    上一版是「整面墙一起缩、互相让位」：每出一张就把前面所有卡的 left/top 和照片宽高全重算一遍，
    而 .photo 挂着 .95s 的 transform 过渡，于是点一下前面几张各自滑一下——看着就是一抽一抽。
