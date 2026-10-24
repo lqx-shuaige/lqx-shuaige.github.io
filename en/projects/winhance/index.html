@@ -19,7 +19,7 @@
     const diag = g('diag');
     if (diag) r.dataset.diag = diag;
   })();
-</script><link rel="stylesheet" href="/_astro/Base.Cfh27LBd.css"><link rel="stylesheet" href="/_astro/ProjectDetail.C0hE0wmk.css"></head> <!-- id="top" 是页脚「回到顶部」那条锚点的落点 --> <body id="top"> <!-- 冷启动遮罩。写在 HTML 里、不依赖 JS，因为要盖住的正是"JS 还没跑完"那一段；
+</script><link rel="stylesheet" href="/_astro/Base.OdnAdPfs.css"><link rel="stylesheet" href="/_astro/ProjectDetail.C0hE0wmk.css"></head> <!-- id="top" 是页脚「回到顶部」那条锚点的落点 --> <body id="top"> <!-- 冷启动遮罩。写在 HTML 里、不依赖 JS，因为要盖住的正是"JS 还没跑完"那一段；
      反过来，没有 JS 时它永远散不掉，所以 <noscript> 里把它整层删掉。 --><div data-astro-transition-persist="boot" class="boot" aria-hidden="true"> <div class="veil"></div> </div> <!-- 折射玻璃那层画布。默认档根本不画（CSS 里藏着），开了才由 glass3d.ts 接管。
      它和壁纸一样要 persist：换页是整块换 <body>，重建画布等于把 WebGL 上下文
      和那套 PMREM 环境贴图整个丢一遍，翻页就闪一下。 --> <canvas data-astro-transition-persist="glass3d" id="glass3d" class="glass3d" aria-hidden="true"></canvas> <!-- 背景两层，从下往上：他自己的头像插画（色源与主角）→ 主题给的压暗/暖冷层。
